@@ -83,7 +83,7 @@ export default function FormPage() {
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-emerald-600/10 rounded-full blur-[128px]" />
         </div>
-        <div className="relative z-10 text-center px-6" data-testid="success-state">
+        <div className="relative z-10 text-center px-6 max-w-lg" data-testid="success-state">
           <div className="w-20 h-20 mx-auto mb-6 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center animate-bounce">
             <svg className="w-10 h-10 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
@@ -93,27 +93,68 @@ export default function FormPage() {
           <p className="text-white/40 mb-8">
             Your response has been recorded successfully.
           </p>
-          <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <Link
-              href={`/dashboard/${formId}`}
-              data-testid="view-results-link"
-              className="inline-flex items-center justify-center gap-2 bg-white/5 border border-white/10 hover:border-violet-500/30 text-white/70 hover:text-white px-6 py-2.5 rounded-xl text-sm transition-all duration-300"
-            >
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-              </svg>
-              View Results
-            </Link>
-            <Link
-              href="/"
-              data-testid="create-new-link"
-              className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-violet-600 to-fuchsia-600 hover:from-violet-500 hover:to-fuchsia-500 text-white px-6 py-2.5 rounded-xl text-sm font-semibold shadow-lg shadow-violet-500/25 transition-all duration-300"
-            >
-              Create New Form
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-              </svg>
-            </Link>
+
+          <div className="bg-white/5 border border-white/10 rounded-2xl p-6 mb-8 backdrop-blur-sm">
+            {form.user_id ? (
+              <p className="text-sm text-white/60 mb-6">
+                This form belongs to a registered user. You can view the results on your dashboard if you are the owner.
+              </p>
+            ) : (
+              <div className="space-y-4">
+                <p className="text-sm text-white/60">
+                   <span className="text-violet-400 font-semibold">Guest Form:</span> Sign in with Google to save this form to your account and manage it later. 
+                </p>
+                <p className="text-xs text-white/30 italic">
+                  Otherwise, make sure to save this page link manually to see responses later!
+                </p>
+              </div>
+            )}
+
+            <div className="flex flex-col gap-3 mt-6">
+              {form.user_id ? (
+                <Link
+                  href="/dashboard"
+                  className="w-full inline-flex items-center justify-center gap-2 bg-violet-600 hover:bg-violet-500 text-white px-6 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 shadow-lg shadow-violet-500/20"
+                >
+                  Go to My Forms
+                </Link>
+              ) : (
+                <Button
+                  onClick={() => {
+                    supabase.auth.signInWithOAuth({
+                      provider: "google",
+                      options: {
+                        redirectTo: `${window.location.origin}/auth/callback?next=/dashboard&claim_id=${formId}`
+                      }
+                    });
+                  }}
+                  className="w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white px-6 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300"
+                >
+                  <svg className="w-4 h-4" viewBox="0 0 24 24">
+                    <path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
+                    <path fill="currentColor" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
+                    <path fill="currentColor" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
+                    <path fill="currentColor" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
+                  </svg>
+                  Sign in to Save this Form
+                </Button>
+              )}
+              
+              <div className="flex gap-3">
+                <Link
+                  href={`/dashboard/${formId}`}
+                  className="flex-1 inline-flex items-center justify-center gap-2 bg-white/5 border border-white/10 hover:border-violet-500/30 text-white/70 hover:text-white px-4 py-2.5 rounded-xl text-sm transition-all duration-300"
+                >
+                  View Live Results
+                </Link>
+                <Link
+                  href="/"
+                  className="flex-1 inline-flex items-center justify-center gap-2 bg-white/5 border border-white/10 hover:border-violet-500/30 text-white/70 hover:text-white px-4 py-2.5 rounded-xl text-sm transition-all duration-300"
+                >
+                  Create Another
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
       </main>
