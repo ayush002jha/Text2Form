@@ -1,35 +1,45 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { createClient } from "@/lib/supabase/client";
+import FileUploader from "@/components/FileUploader";
 
 export default function Home() {
   const [prompt, setPrompt] = useState("");
+  const [files, setFiles] = useState<File[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const router = useRouter();
 
+  const canGenerate = prompt.trim().length > 0 || files.length > 0;
+
   const handleGenerate = async () => {
-    if (!prompt.trim()) return;
+    if (!canGenerate) return;
     setLoading(true);
     setError("");
 
     try {
-      const res = await fetch("/api/generate", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ prompt: prompt.trim() }),
-      });
+      let res: Response;
 
-      const data = await res.json();
-
-      if (!res.ok) {
-        throw new Error(data.error || "Generation failed");
+      if (files.length > 0) {
+        // Use FormData when files are attached
+        const fd = new FormData();
+        fd.append("prompt", prompt.trim());
+        files.forEach((f) => fd.append("files", f));
+        res = await fetch("/api/generate", { method: "POST", body: fd });
+      } else {
+        // Fast JSON path when no files
+        res = await fetch("/api/generate", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ prompt: prompt.trim() }),
+        });
       }
 
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Generation failed");
       router.push(`/f/${data.formId}`);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong");
@@ -84,31 +94,57 @@ export default function Home() {
         </p>
 
         {/* Form Generation Input */}
-        <div className="w-full max-w-2xl">
+        <div className="w-full max-w-3xl">
           <div className="relative group">
             <div className="absolute -inset-0.5 bg-gradient-to-r from-violet-600/50 to-fuchsia-600/50 rounded-2xl blur opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             <div className="relative bg-white/[0.05] border border-white/10 rounded-2xl p-6 backdrop-blur-xl">
-              <Textarea
-                data-testid="prompt-input"
-                placeholder='Try: "Create a 5-question math quiz for grade 8" or "Build a customer feedback form for a restaurant"'
-                value={prompt}
-                onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setPrompt(e.target.value)}
-                rows={4}
-                className="w-full bg-transparent border-0 text-white placeholder:text-white/20 resize-none focus-visible:ring-0 focus-visible:ring-offset-0 text-base leading-relaxed p-0"
-              />
 
-              <div className="flex items-center justify-between mt-4 pt-4 border-t border-white/5">
+              {/* Two-column layout */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                {/* Left: File upload */}
+                <div>
+                  <p className="text-[11px] font-semibold text-white/30 uppercase tracking-widest mb-3">
+                    Context Files <span className="normal-case font-normal">(optional)</span>
+                  </p>
+                  <FileUploader onFilesChange={setFiles} />
+                </div>
+
+                {/* Right: Prompt */}
+                <div className="flex flex-col">
+                  <p className="text-[11px] font-semibold text-white/30 uppercase tracking-widest mb-3">
+                    Your Instructions
+                  </p>
+                  <Textarea
+                    data-testid="prompt-input"
+                    placeholder={
+                      files.length > 0
+                        ? 'e.g. "Create a quiz from this syllabus" or "Build an event registration form"'
+                        : 'Try: "Create a 5-question math quiz for grade 8" or "Build a customer feedback form"'
+                    }
+                    value={prompt}
+                    onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setPrompt(e.target.value)}
+                    className="flex-1 min-h-[120px] bg-transparent border-white/10 text-white placeholder:text-white/20 resize-none focus-visible:ring-1 focus-visible:ring-violet-500/40 focus-visible:ring-offset-0 text-base leading-relaxed rounded-xl"
+                  />
+                </div>
+              </div>
+
+              {/* Bottom bar */}
+              <div className="flex items-center justify-between mt-5 pt-5 border-t border-white/5">
                 <div className="flex items-center gap-2 text-white/20 text-xs">
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
                   </svg>
-                  <span>AI-generated in seconds</span>
+                  <span>
+                    {files.length > 0
+                      ? `${files.length} file${files.length > 1 ? "s" : ""} attached`
+                      : "AI-generated in seconds"}
+                  </span>
                 </div>
 
                 <Button
                   data-testid="generate-button"
                   onClick={handleGenerate}
-                  disabled={loading || !prompt.trim()}
+                  disabled={loading || !canGenerate}
                   className="bg-gradient-to-r from-violet-600 to-fuchsia-600 hover:from-violet-500 hover:to-fuchsia-500 text-white font-semibold px-8 h-10 rounded-xl shadow-lg shadow-violet-500/25 hover:shadow-violet-500/40 transition-all duration-300 disabled:opacity-30 disabled:cursor-not-allowed"
                 >
                   {loading ? (
@@ -117,7 +153,7 @@ export default function Home() {
                         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                         <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
                       </svg>
-                      Generating...
+                      {files.length > 0 ? "Analyzing..." : "Generating..."}
                     </span>
                   ) : (
                     <span className="flex items-center gap-2">
