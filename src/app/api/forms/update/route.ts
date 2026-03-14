@@ -14,20 +14,27 @@ export async function POST(request: NextRequest) {
 
     const supabase = await createClient();
     
-    // Verify user owns the form
+    // Get current session
     const { data: { user } } = await supabase.auth.getUser();
-    if (!user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
 
+    // Fetch the form to check ownership
     const { data: form, error: fetchError } = await supabase
       .from("forms")
       .select("user_id")
       .eq("id", formId)
       .single();
 
-    if (fetchError || form?.user_id !== user.id) {
-      return NextResponse.json({ error: "Unauthorized or form not found" }, { status: 403 });
+    if (fetchError || !form) {
+      return NextResponse.json({ error: "Form not found" }, { status: 404 });
+    }
+
+    // AUTH LOGIC:
+    // 1. If form has no owner (unclaimed), allow anyone to edit (guest flow)
+    // 2. If form has an owner, current user must match that owner
+    if (form.user_id !== null) {
+      if (!user || form.user_id !== user.id) {
+        return NextResponse.json({ error: "Unauthorized: You do not own this form" }, { status: 403 });
+      }
     }
 
     // Update the form

@@ -32,22 +32,31 @@ export default function EditFormPage() {
 
   useEffect(() => {
     const fetchForm = async () => {
+      // Get current session
       const { data: { user } } = await supabase.auth.getUser();
-      if (!user) {
-        router.push("/");
-        return;
-      }
 
+      // Fetch the form
       const { data, error } = await supabase
         .from("forms")
         .select("*")
         .eq("id", formId)
         .single();
 
-      if (error || !data || data.user_id !== user.id) {
-        toast.error("Form not found or access denied");
-        router.push("/dashboard");
+      if (error || !data) {
+        toast.error("Form not found");
+        router.push("/");
         return;
+      }
+
+      // AUTH LOGIC:
+      // 1. If form has no owner, allow editing (guest flow)
+      // 2. If form has owner, current user must match that owner
+      if (data.user_id !== null) {
+        if (!user || data.user_id !== user.id) {
+          toast.error("Access denied: You do not own this form");
+          router.push("/dashboard");
+          return;
+        }
       }
 
       setForm({
@@ -154,8 +163,11 @@ export default function EditFormPage() {
       <div className="relative z-10 max-w-4xl mx-auto">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
           <div>
-            <Link href={`/dashboard/${form.id}`} className="text-muted-foreground font-pixel uppercase hover:text-foreground transition-colors mb-2 inline-block">
-              ← Back to Dashboard
+            <Link 
+              href={form.user_id ? `/dashboard/${form.id}` : "/"} 
+              className="text-muted-foreground font-pixel uppercase hover:text-foreground transition-colors mb-2 inline-block text-sm"
+            >
+              {form.user_id ? "← Back to Dashboard" : "← Back to Home"}
             </Link>
             <h1 className="text-3xl lg:text-5xl font-black font-pixel uppercase tracking-widest text-foreground drop-shadow-[4px_4px_0_var(--color-border)]">
               Form Editor
@@ -181,7 +193,7 @@ export default function EditFormPage() {
             <Button
               onClick={handleSave}
               disabled={saving}
-              className="bg-primary text-primary-foreground border-4 border-border shadow-[4px_4px_0_var(--border)] hover:translate-y-px hover:translate-x-px hover:shadow-[2px_2px_0_var(--border)] font-pixel text-xl uppercase px-8"
+              className="bg-primary h-full text-primary-foreground border-4 border-border shadow-[4px_4px_0_var(--border)] hover:translate-y-px hover:translate-x-px hover:shadow-[2px_2px_0_var(--border)] font-pixel text-xl uppercase px-8"
             >
               {saving ? "Saving..." : "Save Form"}
             </Button>
