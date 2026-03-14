@@ -113,33 +113,59 @@ export default function DashboardPage() {
 
   if (loading) {
     return (
-      <main className="min-h-screen bg-[#0a0a0f] p-6 lg:p-12">
-        <Skeleton className="h-10 w-64 bg-white/5 mb-4" />
-        <Skeleton className="h-4 w-96 bg-white/5 mb-8" />
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-          {[1, 2, 3].map((i) => (
-            <Skeleton key={i} className="h-28 bg-white/5 rounded-xl" />
-          ))}
+      <main className="min-h-screen bg-background relative p-6 lg:p-12">
+        {/* Grid overlay */}
+        <div
+          className="absolute inset-[0] pointer-events-none"
+          style={{
+            backgroundImage: `linear-gradient(var(--color-border) 2px, transparent 2px), linear-gradient(90deg, var(--color-border) 2px, transparent 2px)`,
+            backgroundSize: "64px 64px",
+            opacity: 0.08
+          }}
+        />
+        <div className="relative z-10 max-w-7xl mx-auto">
+          <Skeleton className="h-10 w-64 bg-muted/20 border-4 border-border rounded-none shadow-[4px_4px_0_var(--border)] mb-4" />
+          <Skeleton className="h-6 w-96 bg-muted/20 border-4 border-border rounded-none shadow-[2px_2px_0_var(--border)] mb-12" />
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+            {[1, 2, 3].map((i) => (
+              <Skeleton key={i} className="h-32 bg-muted/20 border-4 border-border rounded-none shadow-[8px_8px_0_var(--border)]" />
+            ))}
+          </div>
+          <Skeleton className="h-96 bg-muted/20 border-4 border-border rounded-none shadow-[12px_12px_0_var(--border)] mb-12" />
         </div>
-        <Skeleton className="h-72 bg-white/5 rounded-xl" />
       </main>
     );
   }
 
   if (accessDenied || !form) {
     return (
-      <main className="min-h-screen bg-[#0a0a0f] flex items-center justify-center">
-        <div className="text-center px-6">
-          <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-rose-500/10 flex items-center justify-center">
-            <svg className="w-8 h-8 text-rose-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+      <main className="min-h-screen bg-background relative flex items-center justify-center">
+        {/* Grid overlay */}
+        <div
+          className="absolute inset-[0] pointer-events-none"
+          style={{
+            backgroundImage: `linear-gradient(var(--color-border) 2px, transparent 2px), linear-gradient(90deg, var(--color-border) 2px, transparent 2px)`,
+            backgroundSize: "64px 64px",
+            opacity: 0.08
+          }}
+        />
+        <div className="relative z-10 text-center px-6">
+          <div className="w-20 h-20 mx-auto mb-8 bg-destructive border-4 border-border shadow-[8px_8px_0_var(--border)] flex items-center justify-center">
+            <svg className="w-10 h-10 text-background" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="square" strokeLinejoin="miter" strokeWidth={3} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
             </svg>
           </div>
-          <h2 className="text-xl font-bold text-white mb-2">{!form ? 'Form Not Found' : 'Access Denied'}</h2>
-          <p className="text-white/60 mb-6 max-w-md">{!form ? 'This form may have been deleted.' : 'This dashboard is private. Only the creator of this form can view its submissions.'}</p>
-          <div className="flex justify-center gap-4">
-            <Link href="/" className="bg-white/5 border border-white/10 text-white px-6 py-2 rounded-xl text-sm transition-all hover:bg-white/10">Go Home</Link>
-          </div>
+          <h2 className="font-pixel text-4xl uppercase tracking-widest text-foreground font-bold mb-4">{!form ? 'Form Not Found' : 'Access Denied'}</h2>
+          <p className="font-sans font-medium text-muted-foreground text-lg mb-8 max-w-md mx-auto">
+            {!form ? 'This form may have been deleted.' : 'Only the creator of this form can view its dashboard and submissions.'}
+          </p>
+          <Link
+            href="/"
+            className="inline-block bg-primary text-primary-foreground border-4 border-border shadow-retro px-8 py-3 font-pixel text-xl uppercase tracking-wider hover:shadow-retro-hover active:shadow-retro-active transition-all"
+          >
+            Go Home
+          </Link>
         </div>
       </main>
     );

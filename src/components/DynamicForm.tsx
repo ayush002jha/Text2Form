@@ -82,7 +82,7 @@ export default function DynamicForm({
             value={(answers[field.id] as string) || ""}
             onChange={(e) => updateAnswer(field.id, e.target.value)}
             required={field.required}
-            className="bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:border-violet-500/50 focus:ring-violet-500/20 transition-all duration-300"
+            className="bg-background border-4 border-border text-foreground shadow-[inset_4px_4px_0px_rgba(0,0,0,0.1)] focus-visible:ring-0 focus-visible:outline-none p-4 rounded-none font-sans text-lg h-14"
           />
         );
 
@@ -96,7 +96,7 @@ export default function DynamicForm({
             onChange={(e) => updateAnswer(field.id, e.target.value)}
             required={field.required}
             rows={4}
-            className="bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:border-violet-500/50 focus:ring-violet-500/20 transition-all duration-300 resize-none"
+            className="bg-background border-4 border-border text-foreground shadow-[inset_4px_4px_0px_rgba(0,0,0,0.1)] focus-visible:ring-0 focus-visible:outline-none p-4 rounded-none font-sans text-lg resize-none min-h-[120px]"
           />
         );
 
@@ -107,55 +107,69 @@ export default function DynamicForm({
             value={(answers[field.id] as string) || ""}
             onValueChange={(value) => updateAnswer(field.id, value)}
           >
-            <div className="space-y-2">
-              {field.options?.map((option, idx) => (
-                <div
-                  key={idx}
-                  className="flex items-center space-x-3 p-3 rounded-lg bg-white/5 border border-white/10 hover:border-violet-500/30 transition-all duration-200 cursor-pointer"
-                >
-                  <RadioGroupItem
-                    data-testid={`radio-${field.id}-${idx}`}
-                    value={option}
-                    id={`${field.id}-${idx}`}
-                    className="border-white/30 text-violet-400"
-                  />
+            <div className="space-y-3">
+              {field.options?.map((option, idx) => {
+                const isSelected = (answers[field.id] as string) === option;
+                return (
                   <Label
+                    key={idx}
                     htmlFor={`${field.id}-${idx}`}
-                    className="text-white/80 cursor-pointer flex-1"
+                    className={`flex items-center space-x-4 p-4 border-4 transition-all duration-200 cursor-pointer shadow-[4px_4px_0_var(--border)]
+                      ${isSelected ? "bg-primary/20 border-primary" : "bg-card border-border hover:bg-muted/10"}`}
                   >
-                    {option}
+                    <RadioGroupItem
+                      data-testid={`radio-${field.id}-${idx}`}
+                      value={option}
+                      id={`${field.id}-${idx}`}
+                      className="border-4 border-border text-primary w-6 h-6 sr-only"
+                    />
+                    <div className={`w-6 h-6 shrink-0 border-4 border-border flex items-center justify-center bg-background
+                        ${isSelected ? "bg-primary" : ""}`}>
+                      {isSelected && <div className="w-2 h-2 bg-border" />}
+                    </div>
+                    <span className="text-foreground font-sans text-lg font-medium flex-1">
+                      {option}
+                    </span>
                   </Label>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </RadioGroup>
         );
 
       case "checkbox":
         return (
-          <div data-testid={`checkbox-group-${field.id}`} className="space-y-2">
-            {field.options?.map((option, idx) => (
-              <div
-                key={idx}
-                className="flex items-center space-x-3 p-3 rounded-lg bg-white/5 border border-white/10 hover:border-violet-500/30 transition-all duration-200 cursor-pointer"
-              >
-                <Checkbox
-                  data-testid={`checkbox-${field.id}-${idx}`}
-                  id={`${field.id}-${idx}`}
-                  checked={
-                    ((answers[field.id] as string[]) || []).includes(option)
-                  }
-                  onCheckedChange={() => toggleCheckbox(field.id, option)}
-                  className="border-white/30 data-[state=checked]:bg-violet-500 data-[state=checked]:border-violet-500"
-                />
+          <div data-testid={`checkbox-group-${field.id}`} className="space-y-3">
+            {field.options?.map((option, idx) => {
+              const isChecked = ((answers[field.id] as string[]) || []).includes(option);
+              return (
                 <Label
+                  key={idx}
                   htmlFor={`${field.id}-${idx}`}
-                  className="text-white/80 cursor-pointer flex-1"
+                  className={`flex items-center space-x-4 p-4 border-4 transition-all duration-200 cursor-pointer shadow-[4px_4px_0_var(--border)]
+                    ${isChecked ? "bg-secondary/20 border-secondary" : "bg-card border-border hover:bg-muted/10"}`}
                 >
-                  {option}
+                  <Checkbox
+                    data-testid={`checkbox-${field.id}-${idx}`}
+                    id={`${field.id}-${idx}`}
+                    checked={isChecked}
+                    onCheckedChange={() => toggleCheckbox(field.id, option)}
+                    className="border-4 border-border text-secondary w-6 h-6 sr-only"
+                  />
+                  <div className={`w-6 h-6 shrink-0 border-4 border-border flex items-center justify-center bg-background
+                      ${isChecked ? "bg-secondary" : ""}`}>
+                    {isChecked && (
+                      <svg className="w-4 h-4 text-border" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="square" strokeLinejoin="miter" strokeWidth={4} d="M5 13l4 4L19 7" />
+                      </svg>
+                    )}
+                  </div>
+                  <span className="text-foreground font-sans text-lg font-medium flex-1">
+                    {option}
+                  </span>
                 </Label>
-              </div>
-            ))}
+              );
+            })}
           </div>
         );
 
@@ -167,17 +181,17 @@ export default function DynamicForm({
           >
             <SelectTrigger
               data-testid={`select-${field.id}`}
-              className="bg-white/5 border-white/10 text-white focus:border-violet-500/50 focus:ring-violet-500/20"
+              className="bg-background border-4 border-border text-foreground shadow-[inset_4px_4px_0px_rgba(0,0,0,0.1)] focus:ring-0 focus:outline-none p-4 rounded-none font-sans text-lg h-14"
             >
-              <SelectValue placeholder={field.placeholder || "Select..."} />
+              <SelectValue placeholder={field.placeholder || "Select an option..."} />
             </SelectTrigger>
-            <SelectContent className="bg-gray-900 border-white/10">
+            <SelectContent className="bg-card border-4 border-border rounded-none shadow-[4px_4px_0_var(--border)]">
               {field.options?.map((option, idx) => (
                 <SelectItem
                   data-testid={`select-option-${field.id}-${idx}`}
                   key={idx}
                   value={option}
-                  className="text-white hover:bg-white/10"
+                  className="text-foreground font-sans text-lg focus:bg-primary/20 focus:text-foreground cursor-pointer"
                 >
                   {option}
                 </SelectItem>
@@ -192,33 +206,31 @@ export default function DynamicForm({
   };
 
   return (
-    <form onSubmit={handleSubmit} data-testid="dynamic-form" className="space-y-6">
+    <form onSubmit={handleSubmit} data-testid="dynamic-form" className="space-y-10">
       {fields.map((field, index) => (
-        <Card
+        <div
           key={field.id}
           data-testid={`form-field-${field.id}`}
-          className="bg-white/[0.03] border-white/10 backdrop-blur-sm hover:border-violet-500/20 transition-all duration-300"
+          className="animate-in fade-in slide-in-from-bottom-4 duration-500"
           style={{ animationDelay: `${index * 80}ms` }}
         >
-          <CardContent className="pt-6">
-            <Label
-              htmlFor={field.id}
-              className="text-white/90 text-sm font-medium mb-3 block"
-            >
-              {field.label}
-              {field.required && (
-                <span className="text-rose-400 ml-1">*</span>
-              )}
-            </Label>
-            {renderField(field)}
-          </CardContent>
-        </Card>
+          <Label
+            htmlFor={field.id}
+            className="text-foreground font-pixel text-2xl uppercase tracking-widest mb-4 block border-b-4 border-border/10 pb-2"
+          >
+            {field.label}
+            {field.required && (
+              <span className="text-destructive ml-2 font-black">*</span>
+            )}
+          </Label>
+          {renderField(field)}
+        </div>
       ))}
 
       {error && (
         <div
           data-testid="form-error"
-          className="p-4 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-300 text-sm"
+          className="p-4 bg-destructive border-4 border-border text-background font-pixel text-xl uppercase tracking-widest shadow-retro"
         >
           {error}
         </div>
@@ -228,12 +240,12 @@ export default function DynamicForm({
         type="submit"
         data-testid="submit-form-button"
         disabled={submitting}
-        className="w-full h-12 bg-gradient-to-r from-violet-600 to-fuchsia-600 hover:from-violet-500 hover:to-fuchsia-500 text-white font-semibold rounded-xl shadow-lg shadow-violet-500/25 hover:shadow-violet-500/40 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+        className="w-full h-16 bg-accent text-accent-foreground border-4 border-border font-pixel text-2xl uppercase tracking-widest shadow-[8px_8px_0px_var(--border)] hover:translate-x-1 hover:translate-y-1 hover:shadow-[4px_4px_0_var(--border)] active:translate-x-2 active:translate-y-2 active:shadow-none transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed mt-8"
       >
         {submitting ? (
-          <span className="flex items-center gap-2">
+          <span className="flex items-center gap-3">
             <svg
-              className="animate-spin h-4 w-4"
+              className="animate-spin h-6 w-6"
               viewBox="0 0 24 24"
               fill="none"
             >
@@ -254,7 +266,7 @@ export default function DynamicForm({
             Submitting...
           </span>
         ) : (
-          "Submit"
+          "Submit Form"
         )}
       </Button>
     </form>

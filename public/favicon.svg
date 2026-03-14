@@ -1,13 +1,15 @@
-<svg width="32" height="32" viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg">
-  <defs>
-    <linearGradient id="favGradient" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#7C3AED"/>
-      <stop offset="100%" stop-color="#A855F7"/>
-    </linearGradient>
-  </defs>
-  <rect width="56" height="56" rx="16" fill="url(#favGradient)" transform="translate(8,8)"/>
-  <rect x="22" y="26" width="26" height="4" rx="2" fill="white"/>
-  <rect x="22" y="36" width="20" height="4" rx="2" fill="white" opacity="0.9"/>
-  <rect x="22" y="46" width="16" height="4" rx="2" fill="white" opacity="0.8"/>
-  <circle cx="48" cy="28" r="4" fill="white"/>
+<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Retro Shadow -->
+  <rect x="12" y="12" width="48" height="48" fill="#141414" />
+  
+  <!-- Main Box -->
+  <rect x="4" y="4" width="48" height="48" fill="#f9ea44" stroke="#141414" stroke-width="6" stroke-linejoin="miter" />
+  
+  <!-- Eyes/Top elements (3 blocks) -->
+  <rect x="14" y="18" width="6" height="6" fill="#141414" />
+  <rect x="25" y="18" width="6" height="6" fill="#141414" />
+  <rect x="36" y="18" width="6" height="6" fill="#141414" />
+  
+  <!-- Mouth/Bottom element -->
+  <rect x="14" y="32" width="28" height="8" fill="#fdfcf6" stroke="#141414" stroke-width="4" stroke-linejoin="miter" />
 </svg>
