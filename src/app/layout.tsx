@@ -7,7 +7,7 @@ import { Toaster } from "@/components/ui/sonner";
 const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
 
 export const metadata: Metadata = {
-  title: "forme.ai — AI-Powered Form & Quiz Builder",
+  title: "Text2Form.ai — AI-Powered Form & Quiz Builder",
   description:
     "Create professional forms and quizzes in seconds using AI. Describe what you need in plain English, share with anyone, and track responses with live analytics.",
   keywords: [
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     "survey builder",
   ],
   openGraph: {
-    title: "forme.ai — AI-Powered Form & Quiz Builder",
+    title: "Text2Form.ai — AI-Powered Form & Quiz Builder",
     description:
       "Create professional forms and quizzes in seconds using AI.",
     type: "website",

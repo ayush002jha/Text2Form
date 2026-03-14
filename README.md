@@ -1,10 +1,10 @@
-# forme.ai — AI-Powered Dynamic Form & Quiz Builder
+# Text2Form — AI-Powered Dynamic Form & Quiz Builder
 
 > Build beautiful forms and quizzes in seconds using natural language. Powered by **Gemini AI**, built with **Next.js**, and backed by **Supabase**.
 
 ## ✨ What It Does
 
-**forme.ai** lets you create professional forms and quizzes by simply describing what you need in plain English. The AI generates a complete, interactive form that you can share with anyone via a unique link — and track all responses through a real-time analytics dashboard.
+**Text2Form** lets you create professional forms and quizzes by simply describing what you need in plain English. The AI generates a complete, interactive form that you can share with anyone via a unique link — and track all responses through a real-time analytics dashboard.
 
 ### Key Features
 

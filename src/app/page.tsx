@@ -64,7 +64,7 @@ export default function Home() {
             </svg>
           </div>
           <span data-testid="app-logo" className="text-white font-bold text-xl tracking-tight">
-            forme<span className="text-violet-400">.</span>ai
+            Text2Form<span className="text-violet-400">.</span>ai
           </span>
         </div>
       </header>

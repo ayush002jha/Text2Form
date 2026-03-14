@@ -136,7 +136,7 @@ export default function FormPage() {
             </svg>
           </div>
           <span className="text-white/80 font-bold text-lg group-hover:text-white transition-colors">
-            forme<span className="text-violet-400">.</span>ai
+            Text2Form<span className="text-violet-400">.</span>ai
           </span>
         </Link>
       </header>
