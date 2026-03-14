@@ -148,72 +148,77 @@ export default function DashboardPage() {
   const fields = form.schema as unknown as FormField[];
 
   return (
-    <main className="min-h-screen bg-[#0a0a0f] relative">
-      {/* Background */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 right-0 w-[500px] h-[500px] bg-violet-600/8 rounded-full blur-[128px]" />
-      </div>
+    <main className="min-h-screen bg-background relative">
+      {/* Grid overlay */}
+      <div
+        className="absolute inset-[0] pointer-events-none"
+        style={{
+          backgroundImage: `linear-gradient(var(--color-border) 2px, transparent 2px), linear-gradient(90deg, var(--color-border) 2px, transparent 2px)`,
+          backgroundSize: "64px 64px",
+          opacity: 0.08
+        }}
+      />
 
-      <div className="relative z-10 max-w-6xl mx-auto px-6 lg:px-12 pb-20">
+      <div className="relative z-10 max-w-6xl mx-auto px-6 lg:px-12 pb-20 mt-8">
         {/* Title section */}
-        <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between mb-8 gap-4">
+        <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between mb-12 gap-6 border-b-4 border-border pb-6">
           <div>
             <h1
               data-testid="dashboard-title"
-              className="text-3xl font-bold text-white mb-2"
+              className="text-4xl lg:text-5xl font-pixel font-bold text-foreground mb-3 uppercase drop-shadow-[2px_2px_0_var(--color-border)] tracking-widest line-clamp-1"
             >
               {form.title}
             </h1>
-            <p className="text-white/30 text-sm">{form.description}</p>
+            <p className="text-muted-foreground font-sans font-medium line-clamp-2 max-w-2xl">{form.description}</p>
           </div>
-          <div className="flex gap-3">
+          <div className="flex gap-4 shrink-0">
             <button
               data-testid="copy-link-button"
               onClick={copyFormLink}
-              className="inline-flex items-center gap-2 bg-white/5 border border-white/10 hover:border-violet-500/30 text-white/60 hover:text-white px-4 py-2 rounded-xl text-sm transition-all duration-300"
+              className="inline-flex items-center gap-2 bg-secondary text-secondary-foreground border-4 border-border shadow-retro hover:shadow-retro-hover active:shadow-retro-active px-6 py-3 font-pixel text-xl uppercase transition-all"
             >
               {copied ? (
                 <>
-                  <svg className="w-4 h-4 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  <svg className="w-5 h-5 text-accent-foreground" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="square" strokeLinejoin="miter" strokeWidth={3} d="M5 13l4 4L19 7" />
                   </svg>
                   Copied!
                 </>
               ) : (
                 <>
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="square" strokeLinejoin="miter" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
                   </svg>
-                  Share Link
+                  Share form
                 </>
               )}
             </button>
             <Link
               href={`/f/${formId}`}
               data-testid="view-form-link"
-              className="inline-flex items-center gap-2 bg-gradient-to-r from-violet-600 to-fuchsia-600 hover:from-violet-500 hover:to-fuchsia-500 text-white px-4 py-2 rounded-xl text-sm font-semibold shadow-lg shadow-violet-500/25 transition-all duration-300"
+              className="inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground border-4 border-border shadow-retro hover:shadow-retro-hover active:shadow-retro-active px-6 py-3 font-pixel text-xl uppercase transition-all"
             >
-              View Form
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+              View live
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="square" strokeLinejoin="miter" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
               </svg>
             </Link>
           </div>
         </div>
 
         {/* Stats cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
           <Card
             data-testid="stat-total-responses"
-            className="bg-white/[0.03] border-white/10 backdrop-blur-sm"
+            className="bg-card border-4 border-border shadow-[4px_4px_0px_var(--border)] rounded-none p-0 overflow-hidden"
           >
-            <CardHeader className="pb-2">
-              <CardTitle className="text-white/40 text-xs font-medium uppercase tracking-wider">
+            <CardHeader className="bg-primary border-b-4 border-border p-4">
+              <CardTitle className="text-primary-foreground font-pixel text-xl uppercase tracking-widest text-center">
                 Total Responses
               </CardTitle>
             </CardHeader>
-            <CardContent>
-              <div className="text-3xl font-bold text-white">
+            <CardContent className="p-8 text-center bg-card">
+              <div className="font-pixel text-6xl text-foreground drop-shadow-[2px_2px_0_var(--color-border)]">
                 {submissions.length}
               </div>
             </CardContent>
@@ -221,15 +226,15 @@ export default function DashboardPage() {
 
           <Card
             data-testid="stat-total-fields"
-            className="bg-white/[0.03] border-white/10 backdrop-blur-sm"
+            className="bg-card border-4 border-border shadow-[4px_4px_0px_var(--border)] rounded-none p-0 overflow-hidden"
           >
-            <CardHeader className="pb-2">
-              <CardTitle className="text-white/40 text-xs font-medium uppercase tracking-wider">
-                Form Fields
+            <CardHeader className="bg-secondary border-b-4 border-border p-4">
+              <CardTitle className="text-secondary-foreground font-pixel text-xl uppercase tracking-widest text-center">
+                Questions
               </CardTitle>
             </CardHeader>
-            <CardContent>
-              <div className="text-3xl font-bold text-white">
+            <CardContent className="p-8 text-center bg-card">
+              <div className="font-pixel text-6xl text-foreground drop-shadow-[2px_2px_0_var(--color-border)]">
                 {fields.length}
               </div>
             </CardContent>
@@ -237,53 +242,51 @@ export default function DashboardPage() {
 
           <Card
             data-testid="stat-completion-rate"
-            className="bg-white/[0.03] border-white/10 backdrop-blur-sm"
+            className="bg-card border-4 border-border shadow-[4px_4px_0px_var(--border)] rounded-none p-0 overflow-hidden"
           >
-            <CardHeader className="pb-2">
-              <CardTitle className="text-white/40 text-xs font-medium uppercase tracking-wider">
-                Field Types
+            <CardHeader className="bg-accent border-b-4 border-border p-4">
+              <CardTitle className="text-accent-foreground font-pixel text-xl uppercase tracking-widest text-center">
+                Components
               </CardTitle>
             </CardHeader>
-            <CardContent>
-              <div className="flex flex-wrap gap-1.5">
+            <CardContent className="p-6 bg-card flex flex-wrap gap-2 justify-center content-center h-[120px]">
                 {[...new Set(fields.map((f) => f.type))].map((type) => (
                   <Badge
                     key={type}
-                    variant="secondary"
-                    className="bg-violet-500/10 text-violet-300 border-violet-500/20 text-xs"
+                    variant="outline"
+                    className="font-pixel text-sm uppercase bg-background border-2 border-border text-foreground px-3 py-1 shadow-sm rounded-none tracking-widest"
                   >
                     {type}
                   </Badge>
                 ))}
-              </div>
             </CardContent>
           </Card>
         </div>
 
         {/* Analytics chart */}
         {chartData.length > 0 && (
-          <Card className="bg-white/[0.03] border-white/10 backdrop-blur-sm mb-8">
-            <CardHeader>
-              <CardTitle className="text-white text-lg font-semibold">
+          <Card className="bg-card border-4 border-border shadow-[8px_8px_0px_var(--border)] rounded-none mb-12 overflow-hidden">
+            <CardHeader className="bg-muted/30 border-b-4 border-border p-6">
+              <CardTitle className="text-foreground font-pixel text-2xl uppercase tracking-widest">
                 Response Distribution
               </CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="p-6 bg-card">
               <AnalyticsChart data={chartData} title={chartFieldLabel} />
             </CardContent>
           </Card>
         )}
 
-        <Separator className="bg-white/5 mb-8" />
+        <Separator className="bg-border h-1 mb-12 border-dashed border-t-4 bg-transparent" />
 
         {/* Submissions table */}
         <div>
           <h2
             data-testid="submissions-heading"
-            className="text-xl font-semibold text-white mb-4"
+            className="text-3xl font-pixel font-bold text-foreground mb-6 uppercase tracking-widest flex items-center"
           >
             All Submissions
-            <span className="text-white/30 text-sm font-normal ml-2">
+            <span className="text-muted-foreground text-2xl font-normal ml-4">
               ({submissions.length})
             </span>
           </h2>

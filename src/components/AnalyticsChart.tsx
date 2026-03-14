@@ -31,7 +31,7 @@ const CHART_COLORS = [
 export default function AnalyticsChart({ data, title }: AnalyticsChartProps) {
   if (!data || data.length === 0) {
     return (
-      <div className="flex items-center justify-center h-64 text-white/40 text-sm">
+      <div className="flex items-center justify-center h-64 text-muted-foreground font-pixel text-xl uppercase tracking-widest">
         No data available yet
       </div>
     );
@@ -39,33 +39,38 @@ export default function AnalyticsChart({ data, title }: AnalyticsChartProps) {
 
   return (
     <div data-testid="analytics-chart" className="w-full">
-      <h3 className="text-white/70 text-sm font-medium mb-4">{title}</h3>
+      <h3 className="text-foreground font-pixel text-xl uppercase tracking-widest mb-6 border-b-4 border-border/10 pb-2">{title}</h3>
       <ResponsiveContainer width="100%" height={300}>
         <BarChart data={data} margin={{ top: 5, right: 20, left: 0, bottom: 5 }}>
-          <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
+          <CartesianGrid strokeDasharray="4 4" stroke="var(--color-border)" strokeOpacity={0.2} vertical={false} />
           <XAxis
             dataKey="name"
-            stroke="rgba(255,255,255,0.3)"
-            tick={{ fill: "rgba(255,255,255,0.5)", fontSize: 12 }}
-            tickLine={{ stroke: "rgba(255,255,255,0.1)" }}
+            stroke="var(--color-border)"
+            tick={{ fill: "var(--color-foreground)", fontSize: 14, fontFamily: "var(--font-pixel)" }}
+            tickLine={{ stroke: "var(--color-border)" }}
+            tickMargin={12}
           />
           <YAxis
-            stroke="rgba(255,255,255,0.3)"
-            tick={{ fill: "rgba(255,255,255,0.5)", fontSize: 12 }}
-            tickLine={{ stroke: "rgba(255,255,255,0.1)" }}
+            stroke="var(--color-border)"
+            tick={{ fill: "var(--color-foreground)", fontSize: 14, fontFamily: "var(--font-pixel)" }}
+            tickLine={{ stroke: "var(--color-border)" }}
             allowDecimals={false}
+            tickMargin={12}
           />
           <Tooltip
             contentStyle={{
-              backgroundColor: "rgba(15,15,25,0.95)",
-              border: "1px solid rgba(139,92,246,0.3)",
-              borderRadius: "12px",
-              color: "white",
-              padding: "12px 16px",
+              backgroundColor: "var(--color-card)",
+              border: "4px solid var(--color-border)",
+              color: "var(--color-foreground)",
+              padding: "16px",
+              fontFamily: "var(--font-pixel)",
+              fontSize: "18px",
+              textTransform: "uppercase",
+              boxShadow: "4px 4px 0px var(--color-border)"
             }}
-            cursor={{ fill: "rgba(139,92,246,0.08)" }}
+            cursor={{ fill: "var(--color-secondary)", opacity: 0.1 }}
           />
-          <Bar dataKey="count" radius={[6, 6, 0, 0]} maxBarSize={50}>
+          <Bar dataKey="count" radius={[0, 0, 0, 0]} maxBarSize={50}>
             {data.map((_, index) => (
               <Cell
                 key={`cell-${index}`}
