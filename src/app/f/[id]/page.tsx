@@ -5,7 +5,7 @@ import { useParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { FormField, FormRecord } from "@/lib/types";
 import DynamicForm from "@/components/DynamicForm";
-import { Skeleton } from "@/components/ui/skeleton";
+import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
 export default function FormPage() {

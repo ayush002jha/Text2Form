@@ -18,6 +18,7 @@ export interface FormRecord {
   title: string;
   description: string;
   schema: FormField[];
+  user_id?: string | null;
   created_at: string;
 }
 
