@@ -25,6 +25,8 @@ export const metadata: Metadata = {
   },
 };
 
+import Navbar from "@/components/Navbar";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -32,8 +34,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={cn("dark font-sans antialiased", geist.variable)}>
-      <body className="bg-[#0a0a0f] text-white min-h-screen">
-        {children}
+      <body className="bg-[#0a0a0f] text-white min-h-screen flex flex-col">
+        <Navbar />
+        <div className="flex-1">
+          {children}
+        </div>
         <Toaster />
       </body>
     </html>

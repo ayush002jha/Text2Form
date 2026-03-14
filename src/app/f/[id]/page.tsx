@@ -128,23 +128,15 @@ export default function FormPage() {
         <div className="absolute -bottom-40 -left-40 w-[400px] h-[400px] bg-fuchsia-600/8 rounded-full blur-[128px]" />
       </div>
 
-      {/* Header */}
-      <header className="relative z-10 flex items-center justify-between px-6 lg:px-12 py-6">
-        <Link href="/" className="flex items-center gap-3 group">
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-violet-500 to-fuchsia-500 flex items-center justify-center shadow-lg shadow-violet-500/20">
-            <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-            </svg>
-          </div>
-          <span className="text-white/80 font-bold text-lg group-hover:text-white transition-colors">
-            Text2Form<span className="text-violet-400">.</span>ai
-          </span>
-        </Link>
-      </header>
-
       {/* Form Content */}
-      <div className="relative z-10 max-w-2xl mx-auto px-6 pb-20">
-        <div className="mb-8">
+      <div className="relative z-10 max-w-2xl mx-auto px-6 py-12 pb-20">
+        <div className="mb-6">
+          <Link href="/" className="inline-flex items-center text-sm text-white/40 hover:text-white/80 transition-colors mb-6">
+            <svg className="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            Back to Home
+          </Link>
           <h1 data-testid="form-title" className="text-3xl lg:text-4xl font-bold text-white mb-3">
             {form.title}
           </h1>

@@ -25,39 +25,6 @@ export default async function DashboardIndex() {
         <div className="absolute -top-40 right-0 w-[500px] h-[500px] bg-violet-600/8 rounded-full blur-[128px]" />
       </div>
 
-      {/* Header */}
-      <header className="relative z-10 flex items-center justify-between px-6 lg:px-12 py-6">
-        <Link href="/" className="flex items-center gap-3 group">
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-violet-500 to-fuchsia-500 flex items-center justify-center shadow-lg shadow-violet-500/20">
-            <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-            </svg>
-          </div>
-          <span className="text-white/80 font-bold text-lg group-hover:text-white transition-colors">
-            Text2Form<span className="text-violet-400">.</span>
-          </span>
-        </Link>
-        <div className="flex items-center gap-4">
-          <div className="flex items-center gap-3 text-white/80 pr-4 border-r border-white/10">
-            {user.user_metadata?.avatar_url ? (
-              <img src={user.user_metadata.avatar_url} alt="Profile" className="w-8 h-8 rounded-full border border-white/20" />
-            ) : (
-              <div className="w-8 h-8 rounded-full bg-violet-600/30 flex items-center justify-center border border-white/20 text-sm font-medium">
-                {user.email?.charAt(0).toUpperCase() || 'U'}
-              </div>
-            )}
-            <span className="text-sm font-medium hidden sm:block">
-              {user.user_metadata?.full_name || user.email?.split('@')[0]}
-            </span>
-          </div>
-          <form action="/auth/signout" method="post">
-            <button className="text-sm bg-white/5 border border-white/10 hover:bg-white/10 text-white px-4 py-2 rounded-xl transition-colors">
-              Sign Out
-            </button>
-          </form>
-        </div>
-      </header>
-
       <div className="relative z-10 max-w-6xl mx-auto px-6 lg:px-12 pb-20 mt-8">
         <div className="flex items-center justify-between mb-8">
           <div>
