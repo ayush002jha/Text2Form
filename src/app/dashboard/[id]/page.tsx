@@ -1,8 +1,6 @@
-"use client";
-
 import React, { useEffect, useState, useMemo } from "react";
 import { useParams } from "next/navigation";
-import { supabase } from "@/lib/supabase";
+import { createClient } from "@/lib/supabase/client";
 import { FormField, FormRecord, SubmissionRecord } from "@/lib/types";
 import SubmissionsTable from "@/components/SubmissionsTable";
 import AnalyticsChart from "@/components/AnalyticsChart";
@@ -20,25 +18,43 @@ export default function DashboardPage() {
   const [submissions, setSubmissions] = useState<SubmissionRecord[]>([]);
   const [loading, setLoading] = useState(true);
   const [copied, setCopied] = useState(false);
+  const [accessDenied, setAccessDenied] = useState(false);
+  const supabase = createClient();
 
   useEffect(() => {
     const fetchData = async () => {
-      const [formRes, subsRes] = await Promise.all([
-        supabase.from("forms").select("*").eq("id", formId).single(),
-        supabase
-          .from("submissions")
-          .select("*")
-          .eq("form_id", formId)
-          .order("submitted_at", { ascending: false }),
-      ]);
+      // First fetch form details
+      const { data: formRes, error: formError } = await supabase
+        .from("forms")
+        .select("*")
+        .eq("id", formId)
+        .single();
+        
+      if (formError || !formRes) {
+        setLoading(false);
+        return;
+      }
+      
+      setForm(formRes as FormRecord);
 
-      if (formRes.data) setForm(formRes.data as FormRecord);
-      if (subsRes.data) setSubmissions(subsRes.data as SubmissionRecord[]);
+      // Try fetching submissions - RLS will block if private and not owner
+      const { data: subsRes, error: subsError } = await supabase
+        .from("submissions")
+        .select("*")
+        .eq("form_id", formId)
+        .order("submitted_at", { ascending: false });
+
+      if (subsError && subsError.code === "PGRST116") {
+        setAccessDenied(true);
+      } else if (subsRes) {
+        setSubmissions(subsRes as SubmissionRecord[]);
+      }
+      
       setLoading(false);
     };
 
     fetchData();
-  }, [formId]);
+  }, [formId, supabase]);
 
   const chartData = useMemo(() => {
     if (!form || submissions.length === 0) return [];
@@ -99,14 +115,20 @@ export default function DashboardPage() {
     );
   }
 
-  if (!form) {
+  if (accessDenied || !form) {
     return (
       <main className="min-h-screen bg-[#0a0a0f] flex items-center justify-center">
-        <div className="text-center">
-          <p data-testid="dashboard-error" className="text-white/60 mb-4">Form not found</p>
-          <Link href="/" className="text-violet-400 hover:text-violet-300 text-sm underline underline-offset-4">
-            ← Back to Home
-          </Link>
+        <div className="text-center px-6">
+          <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-rose-500/10 flex items-center justify-center">
+            <svg className="w-8 h-8 text-rose-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+            </svg>
+          </div>
+          <h2 className="text-xl font-bold text-white mb-2">{!form ? 'Form Not Found' : 'Access Denied'}</h2>
+          <p className="text-white/60 mb-6 max-w-md">{!form ? 'This form may have been deleted.' : 'This dashboard is private. Only the creator of this form can view its submissions.'}</p>
+          <div className="flex justify-center gap-4">
+            <Link href="/" className="bg-white/5 border border-white/10 text-white px-6 py-2 rounded-xl text-sm transition-all hover:bg-white/10">Go Home</Link>
+          </div>
         </div>
       </main>
     );

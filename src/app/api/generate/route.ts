@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { genAI, FORM_GENERATION_PROMPT } from "@/lib/gemini";
-import { supabase } from "@/lib/supabase";
+import { createClient } from "@/lib/supabase/server";
 import { FormSchema } from "@/lib/types";
 
 export async function POST(request: NextRequest) {
@@ -43,6 +43,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+
     // Save to Supabase
     const { data, error } = await supabase
       .from("forms")
@@ -50,6 +53,7 @@ export async function POST(request: NextRequest) {
         title: formSchema.title || "Untitled Form",
         description: formSchema.description || "",
         schema: formSchema.fields,
+        user_id: user?.id || null, // Associates form with the user if logged in!
       })
       .select("id")
       .single();
