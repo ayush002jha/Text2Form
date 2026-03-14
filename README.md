@@ -1,18 +1,27 @@
-# Text2Form — AI-Powered Dynamic Form & Quiz Builder
+<div align="center">
+  <h1> Text2Form </h1>
+  <p><strong>Build beautiful forms and quizzes in seconds using natural language.</strong></p>
+  <p><i>Powered by Gemini AI, built with Next.js, and backed by Supabase.</i></p>
+</div>
 
-> Build beautiful forms and quizzes in seconds using natural language. Powered by **Gemini AI**, built with **Next.js**, and backed by **Supabase**.
+<br />
 
 ## ✨ What It Does
 
-**Text2Form** lets you create professional forms and quizzes by simply describing what you need in plain English. The AI generates a complete, interactive form that you can share with anyone via a unique link — and track all responses through a real-time analytics dashboard.
+**Text2Form** revolutionizes data collection by letting you create professional forms and quizzes by simply describing what you need in plain English. The AI generates a complete, interactive form that you can share with anyone via a unique link — and track all responses through a real-time analytics dashboard. 
 
-### Key Features
+Created for the **TestSprite Hackathon**, optimized for Innovation, Project Quality, and Test Quality.
 
-- 🤖 **AI-Powered Generation** — Describe your form in natural language, get a professional form in seconds
-- 📝 **Dynamic Form Rendering** — Supports text inputs, textareas, radio buttons, checkboxes, and dropdown selects
-- 🔗 **Shareable Links** — Every form gets a unique URL that anyone can access and fill out
-- 📊 **Live Analytics Dashboard** — Real-time response tracking with data tables and Recharts visualizations
-- 🎨 **Premium Dark UI** — Stunning glassmorphism design with smooth animations and gradient accents
+### 🌟 Key Features
+
+- 🤖 **AI-Powered Generation** — Describe your form in natural language (e.g., *"Make a 5-question math quiz for 8th graders"*), get a professional form in seconds.
+- 📝 **Dynamic Form Rendering** — Our custom engine maps AI JSON to stunning Shadcn UI components (Text inputs, Textareas, Radio buttons, Checkboxes, and Selects).
+- 🔗 **Shareable Links** — Every form gets a unique, public URL that anyone can access and fill out instantly.
+- 📊 **Live Analytics Dashboard** — Real-time response tracking with data tables and Recharts visualizations.
+- 🎨 **Premium UI/UX** — Stunning glassmorphism design with smooth micro-animations, tailored color palettes, and full dark mode.
+- 🤖 **Agent-Ready Architecture** — Every interactive element is tagged with strict `data-testid` attributes specifically designed for the **TestSprite MCP agent** to auto-generate high-quality E2E test cases.
+
+---
 
 ## 🛠️ Tech Stack
 
@@ -21,9 +30,11 @@
 | **Framework** | Next.js 15 (App Router) |
 | **Language** | TypeScript |
 | **Database** | Supabase (PostgreSQL) |
-| **AI** | Google Gemini 2.0 Flash |
+| **AI** | Google Gemini 3.1 Flash Lite Preview |
 | **Styling** | Tailwind CSS v4 + Shadcn UI |
 | **Charts** | Recharts |
+
+---
 
 ## 🚀 Getting Started
 
@@ -36,8 +47,8 @@
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/YOUR_USERNAME/forme.git
-   cd forme
+   git clone https://github.com/ayush002jha/Text2Form.git
+   cd Text2Form
    npm install
    ```
 
@@ -53,48 +64,57 @@
    ```
 
 3. **Set up Supabase database**
-   Run the SQL from `supabase/schema.sql` in Supabase SQL Editor.
+   Run the SQL script found in `supabase/schema.sql` in your Supabase SQL Editor. This sets up the `forms` and `submissions` tables, along with the necessary Public RLS policies.
 
 4. **Start the development server**
    ```bash
    npm run dev
    ```
 
-5. Open [http://localhost:3000](http://localhost:3000) 🎉
+5. Open [http://localhost:3000](http://localhost:3000) to see the app! 🎉
+
+---
 
 ## 🏗️ Project Structure
 
-```
+```text
 ├── src/
 │   ├── app/
 │   │   ├── api/
 │   │   │   ├── generate/route.ts    # AI form generation endpoint
 │   │   │   └── submit/route.ts      # Form submission endpoint
-│   │   ├── f/[id]/page.tsx          # Public form page
+│   │   ├── f/[id]/page.tsx          # Public dynamic form renderer
 │   │   ├── dashboard/[id]/page.tsx  # Analytics dashboard
 │   │   ├── layout.tsx               # Root layout
 │   │   └── page.tsx                 # Home/Hero page
 │   ├── components/
-│   │   ├── ui/                      # Shadcn UI components
-│   │   ├── DynamicForm.tsx          # Dynamic form renderer
-│   │   ├── AnalyticsChart.tsx       # Recharts analytics
+│   │   ├── ui/                      # Shadcn UI components (13 total)
+│   │   ├── DynamicForm.tsx          # Dynamic rendering engine
+│   │   ├── AnalyticsChart.tsx       # Recharts data visualization
 │   │   └── SubmissionsTable.tsx     # Response data table
 │   └── lib/
-│       ├── supabase.ts              # Supabase client
-│       ├── gemini.ts                # Gemini AI client
-│       ├── types.ts                 # TypeScript types
+│       ├── supabase.ts              # Supabase client config
+│       ├── gemini.ts                # Gemini AI client & prompts
+│       ├── types.ts                 # Strict TypeScript definitions
 │       └── utils.ts                 # Utility functions
 ├── supabase/
-│   └── schema.sql                   # Database schema
+│   └── schema.sql                   # Supabase Database schema & RLS policies
 ├── testsprite_tests/                # AI-generated test cases (TestSprite)
 ├── README.md
-└── demo.mp4
+└── demo.mp4                         # Video walkthrough
 ```
 
-## 🧪 Testing
+---
 
-All tests are auto-generated using the **TestSprite MCP** agent. The generated test cases are located in the `testsprite_tests/` directory.
+## 🧪 Testing (TestSprite)
 
-## 📄 License
+As per the hackathon requirements, **there are no hand-written tests in this repository.**
 
-MIT
+All tests have been auto-generated using the **TestSprite MCP** agent evaluating the `data-testid` attributes seeded throughout our components. The fully agent-generated test cases are compiled in the `testsprite_tests/` directory.
+
+---
+
+## 📄 License & Credits
+
+Created by **ayush002jha** for the TestSprite Hackathon.
+Released under the MIT License.
