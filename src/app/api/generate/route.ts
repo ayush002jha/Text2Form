@@ -4,7 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import { FormSchema } from "@/lib/types";
 import mammoth from "mammoth";
 
-// Load pdf-parse via its internal entry point to avoid browser-polyfill crash in Next.js
+// Load pdf-parse v1.x via its internal entry to skip test-file imports that crash in Next.js
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const parsePdf: (buf: Buffer) => Promise<{ text: string }> = require("pdf-parse/lib/pdf-parse.js");
 
