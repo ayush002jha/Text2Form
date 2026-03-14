@@ -107,7 +107,11 @@ export default function EditFormPage() {
       if (!res.ok) throw new Error("Failed to save form");
       
       toast.success("Form saved successfully");
-      router.push(`/dashboard/${form.id}`);
+      if (!form.user_id) {
+        router.push(`/f/${form.id}?success=true`);
+      } else {
+        router.push(`/dashboard/${form.id}`);
+      }
     } catch (err: any) {
       toast.error(err.message || "An error occurred while saving");
     } finally {

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { FormField, FormRecord } from "@/lib/types";
 import DynamicForm from "@/components/DynamicForm";
@@ -11,7 +11,9 @@ import Link from "next/link";
 
 export default function FormPage() {
   const params = useParams();
+  const searchParams = useSearchParams();
   const formId = params.id as string;
+  const isCreationSuccess = searchParams.get("success") === "true";
 
   const [form, setForm] = useState<FormRecord | null>(null);
   const [loading, setLoading] = useState(true);
@@ -22,6 +24,10 @@ export default function FormPage() {
   const supabase = createClient();
 
   useEffect(() => {
+    if (isCreationSuccess) {
+      setSubmitted(true);
+    }
+
     const fetchForm = async () => {
       const { data, error: fetchError } = await supabase
         .from("forms")
@@ -40,7 +46,7 @@ export default function FormPage() {
     };
 
     fetchForm();
-  }, [formId, supabase]);
+  }, [formId, supabase, isCreationSuccess]);
 
   const handleSubmissionSuccess = (data: any) => {
     if (data?.is_quiz) {
@@ -146,9 +152,13 @@ export default function FormPage() {
             </>
           ) : (
             <>
-              <h2 className="font-pixel text-4xl lg:text-5xl font-black text-foreground uppercase tracking-widest leading-[1.1] drop-shadow-[3px_3px_0_var(--color-border)] mb-4">Thank You!</h2>
+              <h2 className="font-pixel text-4xl lg:text-5xl font-black text-foreground uppercase tracking-widest leading-[1.1] drop-shadow-[3px_3px_0_var(--color-border)] mb-4">
+                {isCreationSuccess ? "Your Form is Ready!" : "Thank You!"}
+              </h2>
               <p className="font-sans font-medium text-muted-foreground text-lg mb-8">
-                Your response has been recorded successfully.
+                {isCreationSuccess 
+                  ? "Your changes have been saved. You can now share this form or sign in to save it to your account."
+                  : "Your response has been recorded successfully."}
               </p>
             </>
           )}
