@@ -69,7 +69,7 @@ export default function Home() {
       >
         <span className="font-pixel text-sm md:text-base uppercase tracking-widest text-card-foreground font-semibold">Built with</span>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/testsprite.webp" alt="TestSprite" className="h-8 object-contain" />
+        <img src="/testsprite.webp" alt="TestSprite" className="h-9 object-contain" />
       </a>
 
       {/* Hero Section */}
