@@ -20,7 +20,7 @@ import { Card, CardContent } from "@/components/ui/card";
 interface DynamicFormProps {
   fields: FormField[];
   formId: string;
-  onSubmitSuccess?: () => void;
+  onSubmitSuccess?: (data: any) => void;
 }
 
 export default function DynamicForm({
@@ -63,7 +63,8 @@ export default function DynamicForm({
         throw new Error(data.error || "Submission failed");
       }
 
-      onSubmitSuccess?.();
+      const responseData = await res.json();
+      onSubmitSuccess?.(responseData);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong");
     } finally {

@@ -18,6 +18,7 @@ export default function FormPage() {
   const [error, setError] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [scoreData, setScoreData] = useState<{ score: number; total: number; isQuiz: boolean } | null>(null);
   const supabase = createClient();
 
   useEffect(() => {
@@ -40,6 +41,17 @@ export default function FormPage() {
 
     fetchForm();
   }, [formId, supabase]);
+
+  const handleSubmissionSuccess = (data: any) => {
+    if (data?.is_quiz) {
+      setScoreData({
+        score: data.score,
+        total: data.totalScore,
+        isQuiz: true
+      });
+    }
+    setSubmitted(true);
+  };
 
   if (loading) {
     return (
@@ -122,10 +134,24 @@ export default function FormPage() {
               <path strokeLinecap="square" strokeLinejoin="miter" strokeWidth={3} d="M5 13l4 4L19 7" />
             </svg>
           </div>
-          <h2 className="font-pixel text-4xl lg:text-5xl font-black text-foreground uppercase tracking-widest leading-[1.1] drop-shadow-[3px_3px_0_var(--color-border)] mb-4">Thank You!</h2>
-          <p className="font-sans font-medium text-muted-foreground text-lg mb-8">
-            Your response has been recorded successfully.
-          </p>
+          
+          {scoreData?.isQuiz ? (
+            <>
+              <h2 className="font-pixel text-4xl lg:text-5xl font-black text-foreground uppercase tracking-widest leading-[1.1] drop-shadow-[3px_3px_0_var(--color-border)] mb-2">Quiz Completed!</h2>
+              <div className="bg-background border-4 border-border shadow-retro inline-flex items-center justify-center px-8 py-4 mb-8 mt-4">
+                <span className="font-pixel text-5xl text-destructive tracking-widest">
+                  {scoreData.score}<span className="text-3xl text-muted-foreground ml-2">/ {scoreData.total}</span>
+                </span>
+              </div>
+            </>
+          ) : (
+            <>
+              <h2 className="font-pixel text-4xl lg:text-5xl font-black text-foreground uppercase tracking-widest leading-[1.1] drop-shadow-[3px_3px_0_var(--color-border)] mb-4">Thank You!</h2>
+              <p className="font-sans font-medium text-muted-foreground text-lg mb-8">
+                Your response has been recorded successfully.
+              </p>
+            </>
+          )}
 
           <div className="bg-card border-4 border-border shadow-[8px_8px_0px_var(--border)] p-8 mb-8">
             {form.user_id ? (
@@ -267,7 +293,7 @@ export default function FormPage() {
           <DynamicForm
             fields={form.schema as unknown as FormField[]}
             formId={form.id}
-            onSubmitSuccess={() => setSubmitted(true)}
+            onSubmitSuccess={handleSubmissionSuccess}
           />
         </div>
       </div>

@@ -15,11 +15,13 @@ import { SubmissionRecord, FormField } from "@/lib/types";
 interface SubmissionsTableProps {
   submissions: SubmissionRecord[];
   fields: FormField[];
+  isQuiz?: boolean;
 }
 
 export default function SubmissionsTable({
   submissions,
   fields,
+  isQuiz = false,
 }: SubmissionsTableProps) {
   if (submissions.length === 0) {
     return (
@@ -79,6 +81,9 @@ export default function SubmissionsTable({
         <TableHeader className="bg-muted/30">
           <TableRow className="border-b-4 border-border hover:bg-transparent">
             <TableHead className="text-foreground font-pixel text-lg uppercase tracking-widest">#</TableHead>
+            {isQuiz && (
+              <TableHead className="text-foreground font-pixel text-lg uppercase tracking-widest">Score</TableHead>
+            )}
             {fields.map((field) => (
               <TableHead key={field.id} className="text-foreground font-pixel text-lg uppercase tracking-widest">
                 {field.label}
@@ -99,6 +104,12 @@ export default function SubmissionsTable({
               <TableCell className="text-foreground font-pixel text-xl p-4">
                 {index + 1}
               </TableCell>
+              {isQuiz && (
+                <TableCell className="text-destructive font-pixel text-2xl p-4 font-bold">
+                  {sub.score !== null && sub.score !== undefined ? sub.score : '-'}
+                  <span className="text-sm text-muted-foreground font-normal ml-1">/{fields.filter(f => f.correctAnswer).length}</span>
+                </TableCell>
+              )}
               {fields.map((field) => (
                 <TableCell key={field.id} className="p-4 align-middle">
                   {formatAnswer(

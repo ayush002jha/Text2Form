@@ -197,7 +197,16 @@ export default function DashboardPage() {
             </h1>
             <p className="text-muted-foreground font-sans font-medium line-clamp-2 max-w-2xl">{form.description}</p>
           </div>
-          <div className="flex gap-4 shrink-0">
+          <div className="flex gap-4 shrink-0 flex-wrap lg:flex-nowrap justify-end">
+            <Link
+              href={`/dashboard/${formId}/edit`}
+              className="inline-flex items-center gap-2 bg-muted/10 text-muted-foreground border-4 border-border shadow-retro hover:bg-muted/30 hover:shadow-retro-hover active:shadow-retro-active px-6 py-3 font-pixel text-xl uppercase transition-all"
+            >
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="square" strokeLinejoin="miter" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+              </svg>
+              Edit Form
+            </Link>
             <button
               data-testid="copy-link-button"
               onClick={copyFormLink}
@@ -243,8 +252,8 @@ export default function DashboardPage() {
                 Total Responses
               </CardTitle>
             </CardHeader>
-            <CardContent className="p-8 text-center bg-card">
-              <div className="font-pixel text-6xl text-foreground drop-shadow-[2px_2px_0_var(--color-border)]">
+            <CardContent className="p-8 text-center bg-card flex flex-col items-center justify-center h-[120px]">
+              <div className="font-pixel text-6xl text-foreground drop-shadow-[2px_2px_0_var(--color-border)] leading-none">
                 {submissions.length}
               </div>
             </CardContent>
@@ -266,27 +275,53 @@ export default function DashboardPage() {
             </CardContent>
           </Card>
 
-          <Card
-            data-testid="stat-completion-rate"
-            className="bg-card border-4 border-border shadow-[4px_4px_0px_var(--border)] rounded-none p-0 overflow-hidden"
-          >
-            <CardHeader className="bg-accent border-b-4 border-border p-4">
-              <CardTitle className="text-accent-foreground font-pixel text-xl uppercase tracking-widest text-center">
-                Components
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="p-6 bg-card flex flex-wrap gap-2 justify-center content-center h-[120px]">
-                {[...new Set(fields.map((f) => f.type))].map((type) => (
-                  <Badge
-                    key={type}
-                    variant="outline"
-                    className="font-pixel text-sm uppercase bg-background border-2 border-border text-foreground px-3 py-1 shadow-sm rounded-none tracking-widest"
-                  >
-                    {type}
-                  </Badge>
-                ))}
-            </CardContent>
-          </Card>
+          {form.is_quiz && (
+            <Card
+              className="bg-card border-4 border-border shadow-[4px_4px_0px_var(--border)] rounded-none p-0 overflow-hidden"
+            >
+              <CardHeader className="bg-destructive border-b-4 border-border p-4">
+                <CardTitle className="text-background font-pixel text-xl uppercase tracking-widest text-center flex items-center justify-center gap-2">
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="square" strokeLinejoin="miter" strokeWidth={3} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                  </svg>
+                  Average Score
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="p-8 text-center bg-card flex flex-col items-center justify-center h-[120px]">
+                <div className="font-pixel text-6xl text-destructive drop-shadow-[2px_2px_0_var(--color-border)] leading-none">
+                  {submissions.length > 0 
+                    ? Math.round(submissions.reduce((acc, sub) => acc + (sub.score || 0), 0) / submissions.length)
+                    : "-"
+                  }
+                  <span className="text-2xl text-muted-foreground ml-1">/{fields.filter(f => f.correctAnswer).length}</span>
+                </div>
+              </CardContent>
+            </Card>
+          )}
+
+          {!form.is_quiz && (
+            <Card
+              data-testid="stat-completion-rate"
+              className="bg-card border-4 border-border shadow-[4px_4px_0px_var(--border)] rounded-none p-0 overflow-hidden"
+            >
+              <CardHeader className="bg-accent border-b-4 border-border p-4">
+                <CardTitle className="text-accent-foreground font-pixel text-xl uppercase tracking-widest text-center">
+                  Components
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="p-6 bg-card flex flex-wrap gap-2 justify-center content-center h-[120px]">
+                  {[...new Set(fields.map((f) => f.type))].map((type) => (
+                    <Badge
+                      key={type}
+                      variant="outline"
+                      className="font-pixel text-sm uppercase bg-background border-2 border-border text-foreground px-3 py-1 shadow-sm rounded-none tracking-widest"
+                    >
+                      {type}
+                    </Badge>
+                  ))}
+              </CardContent>
+            </Card>
+          )}
         </div>
 
         {/* Analytics chart */}
@@ -316,7 +351,7 @@ export default function DashboardPage() {
               ({submissions.length})
             </span>
           </h2>
-          <SubmissionsTable submissions={submissions} fields={fields} />
+          <SubmissionsTable submissions={submissions} fields={fields} isQuiz={form.is_quiz} />
         </div>
       </div>
     </main>

@@ -71,9 +71,12 @@ export default async function DashboardIndex() {
                     <div className="flex items-center justify-between font-pixel text-muted-foreground uppercase text-lg mb-6">
                       <span>{new Date(form.created_at).toLocaleDateString()}</span>
                     </div>
-                    <div className="flex gap-4">
+                    <div className="flex gap-3 flex-wrap">
                       <Link href={`/dashboard/${form.id}`} className="flex-1 text-center bg-secondary text-secondary-foreground border-4 border-border shadow-retro hover:shadow-retro-hover active:shadow-retro-active py-2 font-pixel text-xl uppercase transition-all">
                         Stats
+                      </Link>
+                      <Link href={`/dashboard/${form.id}/edit`} className="flex-1 text-center bg-card text-foreground border-4 border-border shadow-retro hover:shadow-retro-hover active:shadow-retro-active py-2 font-pixel text-xl uppercase transition-all">
+                        Edit
                       </Link>
                       <Link href={`/f/${form.id}`} target="_blank" className="flex-1 text-center bg-primary text-primary-foreground border-4 border-border shadow-retro hover:shadow-retro-hover active:shadow-retro-active py-2 font-pixel text-xl uppercase transition-all">
                         View
