@@ -40,7 +40,7 @@ export default function Home() {
 
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Generation failed");
-      router.push(`/f/${data.formId}`);
+      router.push(`/dashboard/${data.formId}/edit`);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong");
     } finally {
