@@ -47,8 +47,8 @@ export default function Navbar() {
         <svg width="180" height="40" viewBox="0 0 320 72" xmlns="http://www.w3.org/2000/svg" className="h-10 w-auto">
           <defs>
             <linearGradient id="t2fGradientNavbar" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stop-color="#7C3AED"/>
-              <stop offset="100%" stop-color="#A855F7"/>
+              <stop offset="0%" stopColor="#7C3AED"/>
+              <stop offset="100%" stopColor="#A855F7"/>
             </linearGradient>
           </defs>
           <g transform="translate(8,8)">
@@ -58,9 +58,9 @@ export default function Navbar() {
             <rect x="14" y="38" width="16" height="4" rx="2" fill="white" opacity="0.8"/>
             <circle cx="40" cy="20" r="4" fill="white"/>
           </g>
-          <text x="80" y="45" font-family="Inter, system-ui, sans-serif" font-size="32" font-weight="600" fill="#E5E7EB">Text</text>
-          <text x="150" y="45" font-family="Inter, system-ui, sans-serif" font-size="32" font-weight="700" fill="#A855F7">2</text>
-          <text x="170" y="45" font-family="Inter, system-ui, sans-serif" font-size="32" font-weight="600" fill="#E5E7EB">Form</text>
+          <text x="80" y="45" fontFamily="Inter, system-ui, sans-serif" fontSize="32" fontWeight="600" fill="#E5E7EB">Text</text>
+          <text x="150" y="45" fontFamily="Inter, system-ui, sans-serif" fontSize="32" fontWeight="700" fill="#A855F7">2</text>
+          <text x="170" y="45" fontFamily="Inter, system-ui, sans-serif" fontSize="32" fontWeight="600" fill="#E5E7EB">Form</text>
         </svg>
       </Link>
       
