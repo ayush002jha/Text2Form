@@ -163,14 +163,20 @@ export default function EditFormPage() {
           </div>
           
           <div className="flex items-center gap-4">
-            <Label className="flex items-center gap-2 bg-secondary/20 border-4 border-secondary p-2 cursor-pointer">
-              <Checkbox 
-                checked={form.is_quiz}
-                onCheckedChange={(checked) => setForm({ ...form, is_quiz: !!checked })}
-                className="border-secondary min-w-5 min-h-5"
-              />
-              <span className="font-pixel text-Secondary font-bold uppercase tracking-wider">Quiz Mode</span>
-            </Label>
+            <button
+              type="button"
+              onClick={() => setForm({ ...form, is_quiz: !form.is_quiz })}
+              className={`inline-flex items-center gap-3 border-4 border-border font-pixel text-xl uppercase px-6 py-2 transition-all
+                ${form.is_quiz
+                  ? "bg-secondary text-secondary-foreground shadow-[4px_4px_0_var(--border)] hover:translate-x-px hover:translate-y-px hover:shadow-[2px_2px_0_var(--border)]"
+                  : "bg-card text-foreground shadow-[4px_4px_0_var(--border)] hover:translate-x-px hover:translate-y-px hover:shadow-[2px_2px_0_var(--border)]"
+                }`}
+            >
+              <span className={`w-4 h-4 border-2 border-current flex items-center justify-center shrink-0 ${form.is_quiz ? "bg-secondary-foreground/20" : ""}`}>
+                {form.is_quiz && <span className="w-2 h-2 bg-current block" />}
+              </span>
+              Quiz Mode
+            </button>
             
             <Button
               onClick={handleSave}
