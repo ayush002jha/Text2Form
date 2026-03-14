@@ -23,6 +23,9 @@ export const metadata: Metadata = {
       "Create professional forms and quizzes in seconds using AI.",
     type: "website",
   },
+  icons: {
+    icon: "/favicon.svg",
+  },
 };
 
 import Navbar from "@/components/Navbar";

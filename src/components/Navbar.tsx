@@ -44,14 +44,24 @@ export default function Navbar() {
   return (
     <header className="relative z-50 flex items-center justify-between px-6 lg:px-12 py-6 bg-[#0a0a0f]/80 backdrop-blur-md border-b border-white/5">
       <Link href="/" className="flex items-center gap-3 group">
-        <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-violet-500 to-fuchsia-500 flex items-center justify-center shadow-lg shadow-violet-500/30 group-hover:shadow-violet-500/50 transition-all duration-300">
-          <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-          </svg>
-        </div>
-        <span data-testid="app-logo" className="text-white font-bold text-xl tracking-tight group-hover:text-white/90 transition-colors">
-          Text2Form<span className="text-violet-400">.</span>
-        </span>
+        <svg width="180" height="40" viewBox="0 0 320 72" xmlns="http://www.w3.org/2000/svg" className="h-10 w-auto">
+          <defs>
+            <linearGradient id="t2fGradientNavbar" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#7C3AED"/>
+              <stop offset="100%" stop-color="#A855F7"/>
+            </linearGradient>
+          </defs>
+          <g transform="translate(8,8)">
+            <rect width="56" height="56" rx="16" fill="url(#t2fGradientNavbar)"/>
+            <rect x="14" y="18" width="26" height="4" rx="2" fill="white"/>
+            <rect x="14" y="28" width="20" height="4" rx="2" fill="white" opacity="0.9"/>
+            <rect x="14" y="38" width="16" height="4" rx="2" fill="white" opacity="0.8"/>
+            <circle cx="40" cy="20" r="4" fill="white"/>
+          </g>
+          <text x="80" y="45" font-family="Inter, system-ui, sans-serif" font-size="32" font-weight="600" fill="#E5E7EB">Text</text>
+          <text x="150" y="45" font-family="Inter, system-ui, sans-serif" font-size="32" font-weight="700" fill="#A855F7">2</text>
+          <text x="170" y="45" font-family="Inter, system-ui, sans-serif" font-size="32" font-weight="600" fill="#E5E7EB">Form</text>
+        </svg>
       </Link>
       
       <div className="flex items-center gap-4">

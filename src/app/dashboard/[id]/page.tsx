@@ -25,6 +25,9 @@ export default function DashboardPage() {
 
   useEffect(() => {
     const fetchData = async () => {
+      // Get current user session
+      const { data: { user } } = await supabase.auth.getUser();
+      
       // First fetch form details
       const { data: formRes, error: formError } = await supabase
         .from("forms")
@@ -37,18 +40,24 @@ export default function DashboardPage() {
         return;
       }
       
-      setForm(formRes as FormRecord);
+      const formRecord = formRes as FormRecord;
+      setForm(formRecord);
 
-      // Try fetching submissions - RLS will block if private and not owner
-      const { data: subsRes, error: subsError } = await supabase
+      // Check access: If form is owned by someone, current user must be that someone
+      if (formRecord.user_id && (!user || formRecord.user_id !== user.id)) {
+        setAccessDenied(true);
+        setLoading(false);
+        return;
+      }
+
+      // Try fetching submissions - RLS will also double-protect this
+      const { data: subsRes } = await supabase
         .from("submissions")
         .select("*")
         .eq("form_id", formId)
         .order("submitted_at", { ascending: false });
 
-      if (subsError && subsError.code === "PGRST116") {
-        setAccessDenied(true);
-      } else if (subsRes) {
+      if (subsRes) {
         setSubmissions(subsRes as SubmissionRecord[]);
       }
       
