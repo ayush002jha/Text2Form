@@ -6,6 +6,7 @@ import { createClient } from "@/lib/supabase/client";
 import { FormField, FormRecord } from "@/lib/types";
 import DynamicForm from "@/components/DynamicForm";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import Link from "next/link";
 
 export default function FormPage() {
