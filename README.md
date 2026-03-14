@@ -18,6 +18,7 @@ Created for the **TestSprite Hackathon**, optimized for Innovation, Project Qual
 - 📝 **Dynamic Form Rendering** — Our custom engine maps AI JSON to stunning Shadcn UI components (Text inputs, Textareas, Radio buttons, Checkboxes, and Selects).
 - 🔗 **Shareable Links** — Every form gets a unique, public URL that anyone can access and fill out instantly.
 - 📊 **Live Analytics Dashboard** — Real-time response tracking with data tables and Recharts visualizations.
+- 🔐 **Optional Account Creation** — Continue as a guest for instant access, or log in with Google to manage your created forms and keep your analytics private dashboards secure.
 - 🎨 **Premium UI/UX** — Stunning glassmorphism design with smooth micro-animations, tailored color palettes, and full dark mode.
 - 🤖 **Agent-Ready Architecture** — Every interactive element is tagged with strict `data-testid` attributes specifically designed for the **TestSprite MCP agent** to auto-generate high-quality E2E test cases.
 

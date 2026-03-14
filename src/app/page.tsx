@@ -32,7 +32,7 @@ export default function Home() {
     await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: `${window.location.origin}/dashboard`
+        redirectTo: `${window.location.origin}/auth/callback?next=/dashboard`
       }
     });
   };
@@ -96,14 +96,39 @@ export default function Home() {
         
         <div className="flex items-center gap-4">
           {user ? (
-            <Button
-              variant="ghost"
-              className="text-white/70 hover:text-white hover:bg-white/10"
-              onClick={() => router.push('/dashboard')}
-              data-testid="my-forms-btn"
-            >
-              My Forms
-            </Button>
+            <div className="flex items-center gap-4">
+              <Button
+                variant="ghost"
+                className="text-white/70 hover:text-white hover:bg-white/10"
+                onClick={() => router.push('/dashboard')}
+                data-testid="my-forms-btn"
+              >
+                My Forms
+              </Button>
+              <div className="flex items-center gap-3 pl-4 border-l border-white/10 text-white/80">
+                {user.user_metadata?.avatar_url ? (
+                  <img src={user.user_metadata.avatar_url} alt="Profile" className="w-8 h-8 rounded-full border border-white/20" />
+                ) : (
+                  <div className="w-8 h-8 rounded-full bg-violet-600/30 flex items-center justify-center border border-white/20 text-sm font-medium">
+                    {user.email?.charAt(0).toUpperCase() || 'U'}
+                  </div>
+                )}
+                <span className="text-sm font-medium hidden sm:block">
+                  {user.user_metadata?.full_name || user.email?.split('@')[0]}
+                </span>
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  className="px-2 hover:bg-white/10 text-white/50 hover:text-white" 
+                  onClick={async () => { await supabase.auth.signOut(); setUser(null); router.refresh(); }}
+                  title="Sign Out"
+                >
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                  </svg>
+                </Button>
+              </div>
+            </div>
           ) : (
             <Button
               variant="outline"

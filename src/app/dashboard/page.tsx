@@ -38,7 +38,18 @@ export default async function DashboardIndex() {
           </span>
         </Link>
         <div className="flex items-center gap-4">
-          <div className="text-white/60 text-sm hidden sm:block">{user.email}</div>
+          <div className="flex items-center gap-3 text-white/80 pr-4 border-r border-white/10">
+            {user.user_metadata?.avatar_url ? (
+              <img src={user.user_metadata.avatar_url} alt="Profile" className="w-8 h-8 rounded-full border border-white/20" />
+            ) : (
+              <div className="w-8 h-8 rounded-full bg-violet-600/30 flex items-center justify-center border border-white/20 text-sm font-medium">
+                {user.email?.charAt(0).toUpperCase() || 'U'}
+              </div>
+            )}
+            <span className="text-sm font-medium hidden sm:block">
+              {user.user_metadata?.full_name || user.email?.split('@')[0]}
+            </span>
+          </div>
           <form action="/auth/signout" method="post">
             <button className="text-sm bg-white/5 border border-white/10 hover:bg-white/10 text-white px-4 py-2 rounded-xl transition-colors">
               Sign Out

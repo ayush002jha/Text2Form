@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import { supabase } from "@/lib/supabase";
+import { createClient } from "@/lib/supabase/client";
 import { FormField, FormRecord } from "@/lib/types";
 import DynamicForm from "@/components/DynamicForm";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -16,6 +16,7 @@ export default function FormPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const supabase = createClient();
 
   useEffect(() => {
     const fetchForm = async () => {
@@ -36,7 +37,7 @@ export default function FormPage() {
     };
 
     fetchForm();
-  }, [formId]);
+  }, [formId, supabase]);
 
   if (loading) {
     return (
