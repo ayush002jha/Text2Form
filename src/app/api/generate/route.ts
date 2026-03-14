@@ -3,17 +3,14 @@ import { genAI, FORM_GENERATION_PROMPT } from "@/lib/gemini";
 import { createClient } from "@/lib/supabase/server";
 import { FormSchema } from "@/lib/types";
 import mammoth from "mammoth";
-
-// Load pdf-parse v1.x via its internal entry to skip test-file imports that crash in Next.js
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const parsePdf: (buf: Buffer) => Promise<{ text: string }> = require("pdf-parse/lib/pdf-parse.js");
+import { extractText as extractPdfText } from "unpdf";
 
 async function extractText(file: File): Promise<string> {
   const buffer = Buffer.from(await file.arrayBuffer());
 
   if (file.type === "application/pdf") {
     try {
-      const { text } = await parsePdf(buffer);
+      const { text } = await extractPdfText(new Uint8Array(buffer), { mergePages: true });
       return `[PDF: ${file.name}]\n${text.trim()}\n`;
     } catch (e) {
       console.error("PDF parse error", e);
