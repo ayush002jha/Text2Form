@@ -33,7 +33,7 @@ export default async function DashboardIndex() {
       <div className="relative z-10 max-w-6xl mx-auto px-6 lg:px-12 mt-12">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-16 gap-6">
           <div className="relative">
-            <h1 className="text-5xl lg:text-7xl font-pixel font-bold text-foreground mb-4 uppercase tracking-tighter drop-shadow-[5px_5px_0_var(--color-border)]">
+            <h1 className="text-5xl lg:text-7xl font-pixel font-bold text-foreground mb-4 uppercase tracking-tighter drop-shadow-[5px_5px_0_rgba(0,0,0,0.08)]">
               My Vault
             </h1>
             <div className="flex items-center gap-3">
@@ -79,7 +79,7 @@ export default async function DashboardIndex() {
               return (
                 <div key={form.id} className="group relative">
                   {/* Background shadow layer */}
-                  <div className="absolute inset-0 bg-border translate-x-3 translate-y-3 transition-transform duration-300 group-hover:translate-x-4 group-hover:translate-y-4" />
+                  <div className="absolute inset-0 bg-border/5 translate-x-3 translate-y-3 transition-transform duration-300 group-hover:translate-x-4 group-hover:translate-y-4" />
                   
                   {/* Main card body */}
                   <div className="relative bg-card border-4 border-border h-full flex flex-col transition-transform duration-300 group-hover:-translate-x-1 group-hover:-translate-y-1">
