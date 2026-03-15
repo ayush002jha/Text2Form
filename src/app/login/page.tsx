@@ -127,6 +127,7 @@ function LoginContent() {
                 <Label htmlFor="email" className="font-pixel text-lg uppercase tracking-widest">Email Address</Label>
                 <Input
                   id="email"
+                  data-testid="email-input"
                   type="email"
                   placeholder="user@network.net"
                   value={email}
@@ -139,6 +140,7 @@ function LoginContent() {
                 <Label htmlFor="password" className="font-pixel text-lg uppercase tracking-widest">Password</Label>
                 <Input
                   id="password"
+                  data-testid="password-input"
                   type="password"
                   placeholder="••••••••"
                   value={password}
@@ -148,6 +150,7 @@ function LoginContent() {
                 />
               </div>
               <Button
+                data-testid="email-auth-submit"
                 type="submit"
                 disabled={loading}
                 className="w-full h-14 font-pixel text-xl uppercase tracking-widest bg-primary text-primary-foreground border-4 border-border shadow-retro hover:shadow-retro-hover active:shadow-retro-active transition-all rounded-none mt-2"

@@ -9,7 +9,7 @@ export default async function DashboardIndex() {
   const { data: { user } } = await supabase.auth.getUser();
 
   if (!user) {
-    redirect('/');
+    redirect('/login?next=/dashboard');
   }
 
   // Fetch all forms created by this user with submission counts
@@ -69,7 +69,7 @@ export default async function DashboardIndex() {
             {forms.map((form) => {
               const submissionCount = (form.submissions as any)?.[0]?.count || 0;
               return (
-                <div key={form.id} className="group relative">
+                <div key={form.id} data-testid="form-card" className="group relative">
                   {/* Background shadow layer */}
                   <div className="absolute inset-0 bg-border/5 translate-x-3 translate-y-3 transition-transform duration-300 group-hover:translate-x-4 group-hover:translate-y-4" />
                   
@@ -122,6 +122,7 @@ export default async function DashboardIndex() {
                     {/* Actions Bar */}
                     <div className="p-3 bg-muted/40 border-t-4 border-border grid grid-cols-4 gap-2">
                       <Link 
+                        data-testid="view-analytics-btn"
                         href={`/dashboard/${form.id}`} 
                         className="flex items-center justify-center bg-secondary text-secondary-foreground border-2 border-border shadow-[2px_2px_0_var(--border)] hover:translate-y-[-2px] hover:shadow-[4px_4px_0_var(--border)] active:translate-y-0 active:shadow-none py-2 transition-all group/btn"
                         title="View Analytics"
@@ -131,6 +132,7 @@ export default async function DashboardIndex() {
                         </svg>
                       </Link>
                       <Link 
+                        data-testid="edit-form-btn"
                         href={`/dashboard/${form.id}/edit`} 
                         className="flex items-center justify-center bg-card text-foreground border-2 border-border shadow-[2px_2px_0_var(--border)] hover:translate-y-[-2px] hover:shadow-[4px_4px_0_var(--border)] active:translate-y-0 active:shadow-none py-2 transition-all group/btn"
                         title="Edit Form"
@@ -140,6 +142,7 @@ export default async function DashboardIndex() {
                         </svg>
                       </Link>
                       <Link 
+                        data-testid="view-public-form-btn"
                         href={`/f/${form.id}`} 
                         target="_blank" 
                         className="flex items-center justify-center bg-primary text-primary-foreground border-2 border-border shadow-[2px_2px_0_var(--border)] hover:translate-y-[-2px] hover:shadow-[4px_4px_0_var(--border)] active:translate-y-0 active:shadow-none py-2 transition-all group/btn"

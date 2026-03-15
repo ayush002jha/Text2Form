@@ -27,6 +27,7 @@ export default function EditFormPage() {
   const [form, setForm] = useState<FormRecord | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [accessDenied, setAccessDenied] = useState(false);
   
   const supabase = createClient();
 
@@ -53,8 +54,8 @@ export default function EditFormPage() {
       // 2. If form has owner, current user must match that owner
       if (data.user_id !== null) {
         if (!user || data.user_id !== user.id) {
-          toast.error("Access denied: You do not own this form");
-          router.push("/dashboard");
+          setAccessDenied(true);
+          setLoading(false);
           return;
         }
       }
@@ -70,11 +71,37 @@ export default function EditFormPage() {
     fetchForm();
   }, [formId, router, supabase]);
 
-  if (loading || !form) {
+  if (loading) {
     return (
       <main className="min-h-screen relative p-6 lg:p-12 flex items-center justify-center">
         <div className="relative z-10 text-xl font-pixel uppercase tracking-widest animate-pulse">
           Loading Editor...
+        </div>
+      </main>
+    );
+  }
+
+  if (accessDenied || !form) {
+    return (
+      <main className="min-h-screen relative flex items-center justify-center">
+        <div className="relative z-10 text-center px-6">
+          <div className="w-20 h-20 mx-auto mb-8 bg-destructive border-4 border-border shadow-[8px_8px_0_var(--border)] flex items-center justify-center">
+            <svg className="w-10 h-10 text-background" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="square" strokeLinejoin="miter" strokeWidth={3} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+            </svg>
+          </div>
+          <h2 
+            data-testid="access-denied-heading"
+            className="font-pixel text-4xl uppercase tracking-widest text-foreground font-bold mb-4">Access Denied</h2>
+          <p data-testid="access-denied-message" className="font-sans font-medium text-muted-foreground text-lg mb-8 max-w-md mx-auto">
+            {!form ? 'This form may have been deleted.' : 'This asset is secured in another user\'s vault. Unauthorized access is strictly prohibited by the protocol.'}
+          </p>
+          <Link
+            href="/"
+            className="inline-block bg-primary text-primary-foreground border-4 border-border shadow-retro px-8 py-3 font-pixel text-xl uppercase tracking-wider hover:shadow-retro-hover active:shadow-retro-active transition-all"
+          >
+            Go Home
+          </Link>
         </div>
       </main>
     );
@@ -95,15 +122,21 @@ export default function EditFormPage() {
         }),
       });
 
-      if (!res.ok) throw new Error("Failed to save form");
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => ({}));
+        throw new Error(errorData.error || "Failed to save form");
+      }
       
       toast.success("Form saved successfully");
+      router.refresh(); // Ensure dashboard/analytics sees fresh data
+      
       if (!form.user_id) {
         router.push(`/f/${form.id}?success=true`);
       } else {
         router.push(`/dashboard/${form.id}`);
       }
     } catch (err: any) {
+      console.error("Save error:", err);
       toast.error(err.message || "An error occurred while saving");
     } finally {
       setSaving(false);
@@ -160,11 +193,12 @@ export default function EditFormPage() {
             </h1>
           </div>
           
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
             <button
               type="button"
+              data-testid="quiz-mode-toggle"
               onClick={() => setForm({ ...form, is_quiz: !form.is_quiz })}
-              className={`inline-flex items-center gap-3 border-4 border-border font-pixel text-xl uppercase px-6 py-2 transition-all
+              className={`inline-flex items-center gap-3 border-4 border-border font-pixel text-lg uppercase px-4 py-2 transition-all
                 ${form.is_quiz
                   ? "bg-secondary text-secondary-foreground shadow-[4px_4px_0_var(--border)] hover:translate-x-px hover:translate-y-px hover:shadow-[2px_2px_0_var(--border)]"
                   : "bg-card text-foreground shadow-[4px_4px_0_var(--border)] hover:translate-x-px hover:translate-y-px hover:shadow-[2px_2px_0_var(--border)]"
@@ -173,15 +207,25 @@ export default function EditFormPage() {
               <span className={`w-4 h-4 border-2 border-current flex items-center justify-center shrink-0 ${form.is_quiz ? "bg-secondary-foreground/20" : ""}`}>
                 {form.is_quiz && <span className="w-2 h-2 bg-current block" />}
               </span>
-              Quiz Mode
+              Quiz
             </button>
             
+            <Link
+              href={`/f/${form.id}`}
+              target="_blank"
+              data-testid="share-form-btn"
+              className="bg-accent text-accent-foreground border-4 border-border shadow-[4px_4px_0_var(--border)] hover:translate-y-px hover:translate-x-px hover:shadow-[2px_2px_0_var(--border)] font-pixel text-lg uppercase px-4 py-2"
+            >
+              Share
+            </Link>
+
             <Button
+              data-testid="save-form-btn"
               onClick={handleSave}
               disabled={saving}
-              className="bg-primary h-full text-primary-foreground border-4 border-border shadow-[4px_4px_0_var(--border)] hover:translate-y-px hover:translate-x-px hover:shadow-[2px_2px_0_var(--border)] font-pixel text-xl uppercase px-8"
+              className="bg-primary h-full text-primary-foreground border-4 border-border shadow-[4px_4px_0_var(--border)] hover:translate-y-px hover:translate-x-px hover:shadow-[2px_2px_0_var(--border)] font-pixel text-lg uppercase px-6 py-2 rounded-none"
             >
-              {saving ? "Saving..." : "Save Form"}
+              {saving ? "Saving..." : "Save"}
             </Button>
           </div>
         </div>

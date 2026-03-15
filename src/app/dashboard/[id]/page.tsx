@@ -138,7 +138,9 @@ export default function DashboardPage() {
               <path strokeLinecap="square" strokeLinejoin="miter" strokeWidth={3} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
             </svg>
           </div>
-          <h2 className="font-pixel text-4xl uppercase tracking-widest text-foreground font-bold mb-4">{!form ? 'Form Not Found' : 'Access Denied'}</h2>
+          <h2 
+            data-testid="access-denied-heading"
+            className="font-pixel text-4xl uppercase tracking-widest text-foreground font-bold mb-4">{!form ? 'Form Not Found' : 'Access Denied'}</h2>
           <p className="font-sans font-medium text-muted-foreground text-lg mb-8 max-w-md mx-auto">
             {!form ? 'This form may have been deleted.' : 'Only the creator of this form can view its dashboard and submissions.'}
           </p>
@@ -203,7 +205,7 @@ export default function DashboardPage() {
             </button>
             <Link
               href={`/f/${formId}`}
-              data-testid="view-form-link"
+              data-testid="share-form-btn"
               className="inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground border-4 border-border shadow-retro hover:shadow-retro-hover active:shadow-retro-active px-6 py-3 font-pixel text-xl uppercase transition-all"
             >
               View live

@@ -51,6 +51,14 @@ export default function DynamicForm({
     setSubmitting(true);
     setError("");
 
+    // Basic Validation
+    const missingFields = fields.filter(f => f.required && (!answers[f.id] || (Array.isArray(answers[f.id]) && (answers[f.id] as string[]).length === 0)));
+    if (missingFields.length > 0) {
+      setError(`Please complete all required fields: ${missingFields.map(f => f.label).join(", ")}`);
+      setSubmitting(false);
+      return;
+    }
+
     try {
       const res = await fetch("/api/submit", {
         method: "POST",

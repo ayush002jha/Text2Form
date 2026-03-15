@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import FileUploader from "@/components/FileUploader";
+import { Loader2, ArrowRight, Zap } from "lucide-react";
+import Link from "next/link";
 
 export default function Home() {
   const [prompt, setPrompt] = useState("");
@@ -16,7 +18,10 @@ export default function Home() {
   const canGenerate = prompt.trim().length > 0 || files.length > 0;
 
   const handleGenerate = async () => {
-    if (!canGenerate) return;
+    if (!canGenerate) {
+      setError("Please provide a prompt or upload a file for context.");
+      return;
+    }
     setLoading(true);
     setError("");
 
@@ -121,9 +126,7 @@ export default function Home() {
             {/* Bottom bar */}
             <div className="flex items-center justify-between mt-4 pt-4 border-t-4 border-border border-dashed">
               <div className="flex items-center gap-3 text-muted-foreground font-pixel text-[16px] uppercase tracking-widest">
-                <svg className="w-5 h-5 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="square" strokeLinejoin="miter" strokeWidth={3} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
+                <Zap className="w-5 h-5 text-accent" />
                 <span>
                   {files.length > 0
                     ? `${files.length} file${files.length > 1 ? "s" : ""} attached`
@@ -131,29 +134,24 @@ export default function Home() {
                 </span>
               </div>
 
-              <Button
-                data-testid="generate-button"
+              <button
+                data-testid="create-form-btn"
+                className="h-16 w-full max-w-[240px] border-4 border-border bg-primary px-8 font-pixel text-2xl uppercase tracking-widest text-primary-foreground shadow-retro transition-all hover:shadow-retro-hover active:shadow-retro-active disabled:opacity-50"
+                disabled={loading}
                 onClick={handleGenerate}
-                disabled={loading || !canGenerate}
-                className="font-pixel text-xl h-12 px-6 bg-accent text-accent-foreground border-4 border-border shadow-retro hover:shadow-retro-hover active:shadow-retro-active transition-all disabled:opacity-50 disabled:cursor-not-allowed uppercase tracking-widest"
               >
                 {loading ? (
-                  <span className="flex items-center gap-2">
-                    <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24" fill="none">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-                    </svg>
-                    {files.length > 0 ? "Analyzing..." : "Building..."}
-                  </span>
+                  <div className="flex items-center justify-center gap-2">
+                    <Loader2 className="h-6 w-6 animate-spin" />
+                    <span>GENERATING...</span>
+                  </div>
                 ) : (
-                  <span className="flex items-center gap-2">
-                    Generate
-                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="square" strokeLinejoin="miter" strokeWidth={3} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                    </svg>
-                  </span>
+                  <div className="flex items-center justify-center gap-2">
+                    <span>CREATE FORM</span>
+                    <ArrowRight className="w-6 h-6" />
+                  </div>
                 )}
-              </Button>
+              </button>
             </div>
           </div>
 
@@ -165,6 +163,16 @@ export default function Home() {
               ⚠ {error}
             </div>
           )}
+        </div>
+        {/* Testing Helpers / Samples (Subtle) */}
+        <div className="mt-12 flex flex-wrap justify-center gap-6 font-pixel text-xs uppercase tracking-[0.2em] text-muted-foreground/40 hover:text-muted-foreground transition-colors z-20 relative">
+           <Link href="/f/18c55747-844d-45a9-92f5-c443103fe5ad" data-testid="sample-form-link" className="hover:underline">Open sample form</Link>
+           <span className="opacity-20">|</span>
+           <Link href="/f/1db2cfd6-7d4b-42b8-a407-68f1c14619d3" data-testid="quiz-form-link" className="hover:underline">Open Quiz Form</Link>
+           <span className="opacity-20">|</span>
+           <Link href="/f/this-form-does-not-exist" data-testid="invalid-form-link" className="hover:underline">Try invalid form link</Link>
+           <span className="opacity-20">|</span>
+           <Link href="/dashboard/18c55747-844d-45a9-92f5-c443103fe5ad" data-testid="unauthorized-analytics-link" className="hover:underline">Test Access Control</Link>
         </div>
       </div>
     </main>

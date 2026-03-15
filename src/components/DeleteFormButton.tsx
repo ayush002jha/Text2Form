@@ -45,6 +45,7 @@ export default function DeleteFormButton({ formId, formTitle }: DeleteFormButton
 
   return (
     <button
+      data-testid="delete-form-trigger"
       onClick={handleDelete}
       disabled={isDeleting}
       className={`flex items-center justify-center bg-destructive text-destructive-foreground border-2 border-border shadow-[2px_2px_0_var(--border)] hover:translate-y-[-2px] hover:shadow-[4px_4px_0_var(--border)] active:translate-y-0 active:shadow-none py-2 transition-all group/btn ${
