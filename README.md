@@ -12,6 +12,13 @@
 
 Created for the **TestSprite Hackathon**, optimized for Innovation, Project Quality, and Test Quality.
 
+> [!IMPORTANT]
+> **Built with Antigravity**: This project was built using **Antigravity** as the primary agentic coding IDE. All logic, UI refinements, and feature implementations were driven through the Antigravity agent.
+
+## 💡 The "Why"
+
+Data collection shouldn't be a chore. Most form builders require manual drag-and-drop, which can be tedious and restrictive. **Text2Form** democratizes form creation by putting the power of LLMs directly into the hands of the user. Whether you need a quick survey for a hackathon or a complex math quiz for a classroom, you just speak it into existence. We built this to show how agentic workflows can transform static web tools into dynamic, intelligent assistants.
+
 ### 🌟 Key Features
 
 - 🤖 **AI-Powered Generation** — Describe your form in natural language (e.g., *"Make a 5-question math quiz for 8th graders"*), get a professional form in seconds.

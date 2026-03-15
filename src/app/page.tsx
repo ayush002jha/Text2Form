@@ -77,7 +77,7 @@ export default function Home() {
         
         {/* Title */}
         <h1 className="text-center w-full mb-3">
-          <span className="block font-pixel text-4xl md:text-6xl lg:text-7xl font-black text-foreground uppercase tracking-widest leading-[1.1] drop-shadow-[5px_5px_0_var(--color-border)]">
+          <span className="inline-block font-pixel text-4xl md:text-6xl lg:text-7xl font-black text-foreground uppercase tracking-widest leading-[1.1] bg-primary shadow-[6px_6px_0_var(--border)] px-2 py-1 mb-2">
             Build Forms with
           </span>
           <span className="block font-pixel text-4xl md:text-6xl lg:text-7xl font-black uppercase tracking-widest leading-[1.1] text-primary drop-shadow-[5px_5px_0_var(--color-border)] mt-1">
