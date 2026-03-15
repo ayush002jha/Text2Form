@@ -49,7 +49,7 @@ export default function Home() {
   };
 
   return (
-    <main className="h-[calc(100vh-84px)] min-h-[700px] bg-background relative overflow-hidden flex flex-col items-center justify-center">
+    <main className="h-[calc(100vh-84px)] min-h-[700px] bg-background relative overflow-y-auto flex flex-col items-center justify-center py-12">
       {/* Grid overlay */}
       <div
         className="absolute inset-[0] pointer-events-none"

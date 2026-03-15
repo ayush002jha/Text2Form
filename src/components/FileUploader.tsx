@@ -37,7 +37,7 @@ function formatBytes(bytes: number): string {
   return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
 }
 
-export default function FileUploader({ onFilesChange, maxFiles = 5 }: FileUploaderProps) {
+export default function FileUploader({ onFilesChange, maxFiles = 3 }: FileUploaderProps) {
   const [uploadedFiles, setUploadedFiles] = useState<UploadedFile[]>([]);
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
@@ -70,77 +70,87 @@ export default function FileUploader({ onFilesChange, maxFiles = 5 }: FileUpload
   });
 
   return (
-    <div className="space-y-4">
-      {/* Drop zone */}
-      <div
-        {...getRootProps()}
-        className={`
-          relative cursor-pointer border-4 p-4
-          flex flex-col items-center justify-center gap-2 text-center
-          transition-all duration-200
-          ${isDragActive
-            ? "border-secondary bg-secondary/10 shadow-retro-active"
-            : uploadedFiles.length >= maxFiles
-              ? "border-muted bg-muted/10 opacity-50 cursor-not-allowed shadow-none"
-              : "border-border bg-card hover:shadow-retro shadow-[2px_2px_0px_var(--border)]"
-          }
-        `}
-      >
-        <input {...getInputProps()} />
+    <div className="w-full h-32">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 h-full">
+        {/* Render uploaded files */}
+        {uploadedFiles.map(({ file, id }) => {
+          const type = getFileType(file.type);
+          const cfg = FILE_TYPE_CONFIG[type];
+          return (
+            <div key={id}
+              className="relative flex flex-col items-center justify-center gap-1 p-3 bg-card border-4 border-border shadow-[2px_2px_0px_var(--border)] h-full animate-in fade-in zoom-in duration-200">
+              
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  removeFile(id);
+                }}
+                className="absolute -top-2 -right-2 z-10 p-1 bg-destructive border-2 border-border text-background hover:scale-110 active:scale-90 transition-transform shadow-[2px_2px_0px_var(--border)]"
+                title="Remove"
+              >
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="square" strokeLinejoin="miter" strokeWidth={3} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
 
-        {/* Upload icon */}
-        <div className={`p-2 border-4 border-border transition-colors
-          ${isDragActive ? "bg-secondary text-secondary-foreground" : "bg-primary text-primary-foreground"}`}>
-          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="square" strokeLinejoin="miter" strokeWidth={3}
-              d="M4 16v2h16v-2M12 14V4m0 0L8 8m4-4l4 4" />
-          </svg>
-        </div>
-
-        <div>
-          <p className="font-pixel text-xl text-foreground uppercase tracking-widest">
-            {isDragActive ? "Drop It!" : "Upload Files"}
-          </p>
-          <p className="text-xs font-bold text-muted-foreground mt-1 uppercase">
-            PDF, Word, TXT, IMG · Max {maxFiles}
-          </p>
-        </div>
-      </div>
-
-      {/* Attached files list */}
-      {uploadedFiles.length > 0 && (
-        <div className="space-y-3">
-          {uploadedFiles.map(({ file, id }) => {
-            const type = getFileType(file.type);
-            const cfg = FILE_TYPE_CONFIG[type];
-            return (
-              <div key={id}
-                className="flex items-center gap-4 px-4 py-3 bg-card border-4 border-border shadow-[2px_2px_0px_var(--border)] group">
-                <div className={`shrink-0 w-12 h-12 border-4 border-border ${cfg.bgColor} flex items-center justify-center`}>
-                  <span className={`font-pixel text-lg ${cfg.color}`}>{cfg.label}</span>
-                </div>
-                <div className="flex-1 overflow-hidden">
-                  <p className="font-bold text-foreground truncate uppercase">{file.name}</p>
-                  <p className="font-pixel text-lg text-muted-foreground uppercase tracking-wider">{formatBytes(file.size)}</p>
-                </div>
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    removeFile(id);
-                  }}
-                  className="shrink-0 p-2 bg-destructive border-4 border-border text-background hover:scale-105 active:scale-95 transition-transform"
-                  title="Remove"
-                >
-                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="square" strokeLinejoin="miter" strokeWidth={3} d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                </button>
+              <div className={`shrink-0 w-full h-10 border-4 border-border ${cfg.bgColor} flex items-center justify-center`}>
+                <span className={`font-pixel text-base ${cfg.color}`}>{cfg.label}</span>
               </div>
-            );
-          })}
-        </div>
-      )}
+
+              <div className="w-full text-center overflow-hidden">
+                <p className="font-bold text-[10px] text-foreground truncate uppercase">{file.name}</p>
+                <p className="font-pixel text-[8px] text-muted-foreground uppercase tracking-wider">{formatBytes(file.size)}</p>
+              </div>
+            </div>
+          );
+        })}
+
+        {/* Drop zone - Integrated into grid */}
+        {uploadedFiles.length < maxFiles && (
+          <div
+            {...getRootProps()}
+            className={`
+              relative cursor-pointer border-4 p-2 h-full
+              flex flex-col items-center justify-center gap-1 text-center
+              transition-all duration-200
+              ${uploadedFiles.length === 0 ? "col-span-1 sm:col-span-3" : "col-span-1"}
+              ${isDragActive
+                ? "border-secondary bg-secondary/10 shadow-retro-active"
+                : "border-border bg-card hover:shadow-retro shadow-[2px_2px_0px_var(--border)]"
+              }
+            `}
+          >
+            <input {...getInputProps()} />
+
+            <div className={`p-1.5 border-4 border-border transition-colors
+              ${isDragActive ? "bg-secondary text-secondary-foreground" : "bg-primary text-primary-foreground"}`}>
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="square" strokeLinejoin="miter" strokeWidth={3}
+                  d="M4 16v2h16v-2M12 14V4m0 0L8 8m4-4l4 4" />
+              </svg>
+            </div>
+
+            <div>
+              <p className="font-pixel text-sm text-foreground uppercase tracking-widest whitespace-nowrap">
+                {uploadedFiles.length === 0 
+                  ? (isDragActive ? "Drop It!" : "Upload Files")
+                  : "Add More"}
+              </p>
+              {uploadedFiles.length === 0 && (
+                <p className="text-[10px] font-bold text-muted-foreground mt-0.5 uppercase">
+                  PDF, Word, TXT, IMG · Max {maxFiles}
+                </p>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* Placeholder slots for empty columns to maintain height even if < 3 and dropzone disabled */}
+        {uploadedFiles.length === maxFiles && (
+          <div className="hidden sm:block sm:col-span-0" />
+        )}
+      </div>
     </div>
   );
 }
