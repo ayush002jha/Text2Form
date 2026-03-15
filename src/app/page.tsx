@@ -49,14 +49,14 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen relative flex flex-col items-center justify-center py-12 px-6">
+    <main className="h-[calc(100vh-84px)] min-h-[600px] relative flex flex-col items-center justify-center py-12 px-6">
 
       {/* Testsprite Badge - Bottom right */}
       <a 
         href="https://www.testsprite.com/" 
         target="_blank" 
         rel="noopener noreferrer"
-        className="absolute bottom-6 right-6 z-20 flex items-center gap-3 bg-card border-4 border-border shadow-retro px-4 py-2 hover:-translate-y-1 hover:shadow-retro-hover transition-all"
+        className="fixed bottom-6 right-6 z-20 flex items-center gap-3 bg-card border-4 border-border shadow-retro px-4 py-2 hover:-translate-y-1 hover:shadow-retro-hover transition-all"
       >
         <span className="font-pixel text-sm md:text-base uppercase tracking-widest text-card-foreground font-semibold">Built with</span>
         {/* eslint-disable-next-line @next/next/no-img-element */}
