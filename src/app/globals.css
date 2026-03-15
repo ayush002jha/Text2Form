@@ -94,6 +94,18 @@
   transform: translate(4px, 4px);
 }
 
+@layer utilities {
+  @keyframes autonomous-pulse {
+    0%, 100% { opacity: 0; }
+    50% { opacity: 0.15; }
+  }
+
+  .animate-grid-pulse {
+    animation: autonomous-pulse var(--pulse-duration, 8s) ease-in-out infinite;
+    animation-delay: var(--pulse-delay, 0s);
+  }
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
