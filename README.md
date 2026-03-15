@@ -12,6 +12,17 @@
 
 Created for the **TestSprite Hackathon**, optimized for Innovation, Project Quality, and Test Quality.
 
+---
+
+## 🔗 Quick Links
+
+- 🌐 **Live Demo**: [text2form.vercel.app](https://text2form.vercel.app/)
+- 💻 **GitHub Repo**: [ayush002jha/Text2Form](https://github.com/ayush002jha/Text2Form)
+- 🐦 **X / Twitter Post**: [View Roadmap/Update](https://x.com/ayush17_08/status/2033317642648609211)
+- 🎥 **YT Demo Video**: [Watch Walkthrough](https://youtu.be/5FT3I4JnXno)
+
+---
+
 > [!IMPORTANT]
 > **Built with Antigravity**: This project was built using **Antigravity** as the primary agentic coding IDE. All logic, UI refinements, and feature implementations were driven through the Antigravity agent.
 

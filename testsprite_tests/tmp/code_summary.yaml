@@ -1,0 +1,35 @@
+version: "2"
+type: frontend
+tech_stack:
+  - TypeScript
+  - Next.js (App Router)
+  - Supabase Auth
+rules:
+  - "NEVER use OAuth/Google for automated tests. ALWAYS use the email/password form."
+  - "Unauthorized Edit (TC013): To test access denial, the user MUST be logged in and then navigate to '/dashboard/1db2cfd6-7d4b-42b8-a407-68f1c14619d3/edit'. The application MUST show 'Access Denied' in the heading element (data-testid=\"access-denied-heading\"). This is the correct pass condition."
+  - "Public Quiz (TC017): Use 'quiz-form-link' on the home page (ID: 1db2cfd6-7d4b-42b8-a407-68f1c14619d3). Verify 'quiz-score' after submission."
+  - "Invalid Form (TC015): Use 'invalid-form-link' on the home page. Verify 'Access Denied' heading (acting as Form Not Found for security)."
+routes:
+  - path: /
+    file: src/app/page.tsx
+    auth_required: false
+    description: "Home page. Contains 'sample-form-link', 'quiz-form-link', 'invalid-form-link', and 'unauthorized-analytics-link'."
+  - path: /login
+    file: src/app/login/page.tsx
+    auth_required: false
+    description: "Login page. Use 'email-input' and 'password-input'."
+  - path: /dashboard
+    file: src/app/dashboard/page.tsx
+    auth_required: true
+    description: "User Vault. Lists owned forms."
+  - path: /dashboard/[id]/edit
+    file: src/app/dashboard/[id]/edit/page.tsx
+    auth_required: false
+    description: "Editor. Unauthorized access MUST show 'Access Denied' heading."
+features:
+  - name: Access Control
+    description: "Ownership validation. Restricted forms show 'access-denied-heading'."
+  - name: Quiz Results
+    description: "Score verification via 'quiz-score' testid."
+known_limitations:
+  - issue: "Specific IDs are required for edge case testing (Quiz, Unauthorized)."

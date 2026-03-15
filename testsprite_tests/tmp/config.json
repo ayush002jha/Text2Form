@@ -1,0 +1,20 @@
+{
+  "status": "commited",
+  "type": "frontend",
+  "scope": "codebase",
+  "localEndpoint": "http://localhost:3000",
+  "loginUser": "ayush17_08@discord.com",
+  "loginPassword": "abcd1234",
+  "executionArgs": {
+    "projectName": "text2form",
+    "projectPath": "/home/ayushjha/Music/text2form",
+    "testIds": [],
+    "additionalInstruction": "Execute all test cases from the generated test plan. Do not stop after just 2. Ensure every test case in the plan is executed.",
+    "serverMode": "development",
+    "envs": {
+      "API_KEY": "sk-user-o8q4PloDWIgHpzAcVfqyPCXDnNrJ5OdB9w2SaKOhc92-8Tqd4CcRfoqa-kis0zQ3mGNYGxr0gwm5LkiAaaFa-s4l85Cs89lrkv0t1cdSlmJhwNByuhzJNYLgTAgAKXdSR14"
+    }
+  },
+  "serverPort": 43857,
+  "proxy": "http://01f912d7-34a8-465d-98ef-4baa5291c99d:KkCUQumKb2vlHmLMogYIQoUIr5AE4IlF@tun.testsprite.com:8080"
+}

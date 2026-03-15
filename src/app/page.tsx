@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import FileUploader from "@/components/FileUploader";
-import { Loader2, ArrowRight, Zap } from "lucide-react";
+import { Loader2, ArrowRight, Zap, Github } from "lucide-react";
 import Link from "next/link";
 
 export default function Home() {
@@ -66,6 +66,17 @@ export default function Home() {
         <span className="font-pixel text-sm md:text-base uppercase tracking-widest text-card-foreground font-semibold">Built with</span>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src="/testsprite.webp" alt="TestSprite" className="h-9 object-contain" />
+      </a>
+
+      {/* GitHub Repo - Bottom left */}
+      <a 
+        href="https://github.com/ayush002jha/Text2Form" 
+        target="_blank" 
+        rel="noopener noreferrer"
+        className="fixed bottom-6 left-6 z-20 flex items-center gap-3 bg-card border-4 border-border shadow-retro px-4 py-2 hover:-translate-y-1 hover:shadow-retro-hover transition-all"
+      >
+        <Github className="w-6 h-6 text-foreground" />
+        <span className="font-pixel text-sm md:text-base uppercase tracking-widest text-card-foreground font-semibold">GitHub Repo</span>
       </a>
 
       {/* Hero Section */}
@@ -163,16 +174,6 @@ export default function Home() {
               ⚠ {error}
             </div>
           )}
-        </div>
-        {/* Testing Helpers / Samples (Subtle) */}
-        <div className="mt-12 flex flex-wrap justify-center gap-6 font-pixel text-xs uppercase tracking-[0.2em] text-muted-foreground/40 hover:text-muted-foreground transition-colors z-20 relative">
-           <Link href="/f/18c55747-844d-45a9-92f5-c443103fe5ad" data-testid="sample-form-link" className="hover:underline">Open sample form</Link>
-           <span className="opacity-20">|</span>
-           <Link href="/f/1db2cfd6-7d4b-42b8-a407-68f1c14619d3" data-testid="quiz-form-link" className="hover:underline">Open Quiz Form</Link>
-           <span className="opacity-20">|</span>
-           <Link href="/f/this-form-does-not-exist" data-testid="invalid-form-link" className="hover:underline">Try invalid form link</Link>
-           <span className="opacity-20">|</span>
-           <Link href="/dashboard/18c55747-844d-45a9-92f5-c443103fe5ad" data-testid="unauthorized-analytics-link" className="hover:underline">Test Access Control</Link>
         </div>
       </div>
     </main>
