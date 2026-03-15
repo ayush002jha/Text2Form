@@ -17,14 +17,19 @@ export async function POST(request: Request) {
     }
 
     // Attempt to delete the form. RLS policy will also enforce that user must be the owner.
-    const { error } = await supabase
+    const { data, error, count } = await supabase
       .from("forms")
-      .delete()
+      .delete({ count: "exact" })
       .eq("id", formId)
-      .eq("user_id", user.id);
+      .eq("user_id", user.id)
+      .select();
 
     if (error) {
       return NextResponse.json({ error: "Failed to delete the form" }, { status: 500 });
+    }
+
+    if (!data || data.length === 0) {
+      return NextResponse.json({ error: "Form not found or access denied" }, { status: 404 });
     }
 
     return NextResponse.json({ success: true });
