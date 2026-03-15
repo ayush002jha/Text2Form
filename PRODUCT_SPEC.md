@@ -11,7 +11,7 @@
 
 **Text2Form.ai** is an AI-powered form and quiz builder that allows users to create professional forms and quizzes by describing their needs in natural language. It leverages **Google Gemini AI** to parse user prompts (and optionally uploaded documents) into structured form schemas, which are then rendered as interactive, shareable web forms. Responses are tracked via a real-time analytics dashboard.
 
-> **Key Highlight:** The application supports a **dual-user model**: users can generate and share forms as **guests** (no account required) or **sign in with Google** to permanently manage their forms in a personal dashboard.
+> **Key Highlight:** The application supports a **dual-user model**: users can generate and share forms as **guests** (no account required) or **sign in via Email/Password or Google** to permanently manage their forms in a personal dashboard.
 
 ---
 
@@ -326,7 +326,8 @@ This is the core rendering engine that maps JSON form schemas into interactive U
 | **Quiz Score Display** | After quiz submission: shows score (e.g., "4 / 5") in large display |
 | **Thank You State** | After regular form submission: "Thank You! Your response has been recorded." |
 | **Guest Creation Success** | If `?success=true` param: shows "Your Form is Ready!" with sharing options |
-| **Google Sign-In CTA** | For guest forms: "Sign in to Save" button triggers OAuth with `claim_id` |
+| **Email Sign-In CTA** | For guest forms: "Continue with Email" button redirects to `/login` with `claim_id` |
+| **Google Sign-In CTA** | For guest forms: "Continue with Google" button triggers OAuth with `claim_id` |
 | **Live Results Link** | Button linking to `/dashboard/[id]` |
 | **Create Another Link** | Button linking back to `/` |
 | **Loading State** | Skeleton placeholders while form data loads |
@@ -397,11 +398,13 @@ This is the core rendering engine that maps JSON form schemas into interactive U
 
 | Component | Implementation |
 |-----------|----------------|
-| **Provider** | Google OAuth via Supabase Auth |
-| **Login Trigger** | Navbar "LOGIN" button (visible when logged out) |
-| **Login Flow** | `signInWithOAuth({ provider: "google" })` → Google consent → callback |
-| **OAuth Callback** | `/auth/callback` — exchanges code for session |
-| **Form Claiming** | Callback accepts `claim_id` → updates `forms.user_id` from `null` to authenticated user |
+| **Providers** | Email/Password and Google OAuth via Supabase Auth |
+| **Login Route** | Centralized `/login` page with Sign In / Sign Up toggles |
+| **Login Trigger** | Navbar "LOGIN" button redirects to `/login` |
+| **Login Flow (Email)** | `signInWithPassword` or `signUp` → redirect to dashboard |
+| **Login Flow (Google)** | `signInWithOAuth({ provider: "google" })` from `/login` or form page |
+| **OAuth Callback** | `/auth/callback` — exchanges code for session; handles Google redirects |
+| **Form Claiming** | Both flows accept `claim_id` → updates `forms.user_id` from `null` to authenticated user |
 | **Sign Out (Client)** | Navbar sign-out button → `supabase.auth.signOut()` → redirect to `/` |
 | **Sign Out (Server)** | `/auth/signout` POST route → server-side sign out → redirect |
 | **Session Management** | Server: `createServerClient()` with cookie-based sessions; Client: `createBrowserClient()` |
@@ -959,6 +962,8 @@ Text2Form/
 │   │   ├── auth/
 │   │   │   ├── callback/route.ts      # OAuth callback + form claiming
 │   │   │   └── signout/route.ts       # Sign out
+│   │   ├── login/
+│   │   │   └── page.tsx               # Login & Sign-up page (Email/Google)
 │   │   ├── dashboard/
 │   │   │   ├── page.tsx               # Form list (SSR, auth-required)
 │   │   │   └── [id]/

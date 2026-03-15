@@ -25,13 +25,8 @@ export default function Navbar() {
     return () => subscription.unsubscribe();
   }, [supabase.auth]);
 
-  const handleLogin = async () => {
-    await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: {
-        redirectTo: `${window.location.origin}/auth/callback?next=/dashboard`
-      }
-    });
+  const handleLogin = () => {
+    router.push("/login");
   };
 
   const handleSignOut = async () => {
