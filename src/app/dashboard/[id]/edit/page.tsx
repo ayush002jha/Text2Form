@@ -72,16 +72,7 @@ export default function EditFormPage() {
 
   if (loading || !form) {
     return (
-      <main className="min-h-screen bg-background relative p-6 lg:p-12 flex items-center justify-center">
-        {/* Grid overlay */}
-        <div
-          className="absolute inset-[0] pointer-events-none"
-          style={{
-            backgroundImage: `linear-gradient(var(--color-border) 2px, transparent 2px), linear-gradient(90deg, var(--color-border) 2px, transparent 2px)`,
-            backgroundSize: "64px 64px",
-            opacity: 0.08
-          }}
-        />
+      <main className="min-h-screen relative p-6 lg:p-12 flex items-center justify-center">
         <div className="relative z-10 text-xl font-pixel uppercase tracking-widest animate-pulse">
           Loading Editor...
         </div>
@@ -153,16 +144,7 @@ export default function EditFormPage() {
   };
 
   return (
-    <main className="min-h-screen bg-background relative p-6 lg:p-12 pb-32">
-      {/* Grid overlay */}
-      <div
-        className="absolute inset-[0] pointer-events-none fixed"
-        style={{
-          backgroundImage: `linear-gradient(var(--color-border) 2px, transparent 2px), linear-gradient(90deg, var(--color-border) 2px, transparent 2px)`,
-          backgroundSize: "64px 64px",
-          opacity: 0.08
-        }}
-      />
+    <main className="min-h-screen relative p-6 lg:p-12 pb-32">
       
       <div className="relative z-10 max-w-4xl mx-auto">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">

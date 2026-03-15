@@ -1,14 +1,14 @@
 "use client";
 
-import React, { useEffect, useState, memo } from "react";
+import React, { useEffect, useState, memo, useMemo } from "react";
 
 const COLORS = ["bg-primary", "bg-secondary", "bg-accent"];
 
 const GridCell = memo(() => {
   const config = useMemo(() => ({
     color: COLORS[Math.floor(Math.random() * COLORS.length)],
-    delay: Math.random() * 20,
-    duration: 10 + Math.random() * 15
+    delay: Math.random() * 5,
+    duration: 4 + Math.random() * 4
   }), []);
 
   return (
@@ -42,7 +42,7 @@ export const InteractiveGrid = () => {
   }, []);
 
   return (
-    <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
+    <div className="fixed inset-0 overflow-hidden pointer-events-none z-[-1]">
       <div 
         className="flex flex-wrap"
         style={{ width: 'calc(100% + 64px)' }}

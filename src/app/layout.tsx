@@ -31,6 +31,7 @@ export const metadata: Metadata = {
 };
 
 import Navbar from "@/components/Navbar";
+import { InteractiveGrid } from "@/components/InteractiveGrid";
 
 export default function RootLayout({
   children,
@@ -39,7 +40,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={cn("font-sans antialiased", geist.variable, pixelFont.variable)}>
-      <body className="bg-background text-foreground min-h-screen flex flex-col selection:bg-primary selection:text-primary-foreground">
+      <body className="bg-background text-foreground min-h-screen flex flex-col selection:bg-primary selection:text-primary-foreground relative overflow-x-hidden">
+        <InteractiveGrid />
         <Navbar />
         <div className="flex-1">
           {children}

@@ -113,16 +113,7 @@ export default function DashboardPage() {
 
   if (loading) {
     return (
-      <main className="min-h-screen bg-background relative p-6 lg:p-12">
-        {/* Grid overlay */}
-        <div
-          className="absolute inset-[0] pointer-events-none"
-          style={{
-            backgroundImage: `linear-gradient(var(--color-border) 2px, transparent 2px), linear-gradient(90deg, var(--color-border) 2px, transparent 2px)`,
-            backgroundSize: "64px 64px",
-            opacity: 0.08
-          }}
-        />
+      <main className="min-h-screen relative p-6 lg:p-12">
         <div className="relative z-10 max-w-7xl mx-auto">
           <Skeleton className="h-10 w-64 bg-muted/20 border-4 border-border rounded-none shadow-[4px_4px_0_var(--border)] mb-4" />
           <Skeleton className="h-6 w-96 bg-muted/20 border-4 border-border rounded-none shadow-[2px_2px_0_var(--border)] mb-12" />
@@ -140,16 +131,7 @@ export default function DashboardPage() {
 
   if (accessDenied || !form) {
     return (
-      <main className="min-h-screen bg-background relative flex items-center justify-center">
-        {/* Grid overlay */}
-        <div
-          className="absolute inset-[0] pointer-events-none"
-          style={{
-            backgroundImage: `linear-gradient(var(--color-border) 2px, transparent 2px), linear-gradient(90deg, var(--color-border) 2px, transparent 2px)`,
-            backgroundSize: "64px 64px",
-            opacity: 0.08
-          }}
-        />
+      <main className="min-h-screen relative flex items-center justify-center">
         <div className="relative z-10 text-center px-6">
           <div className="w-20 h-20 mx-auto mb-8 bg-destructive border-4 border-border shadow-[8px_8px_0_var(--border)] flex items-center justify-center">
             <svg className="w-10 h-10 text-background" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -174,16 +156,7 @@ export default function DashboardPage() {
   const fields = form.schema as unknown as FormField[];
 
   return (
-    <main className="min-h-screen bg-background relative">
-      {/* Grid overlay */}
-      <div
-        className="absolute inset-[0] pointer-events-none"
-        style={{
-          backgroundImage: `linear-gradient(var(--color-border) 2px, transparent 2px), linear-gradient(90deg, var(--color-border) 2px, transparent 2px)`,
-          backgroundSize: "64px 64px",
-          opacity: 0.08
-        }}
-      />
+    <main className="min-h-screen relative">
 
       <div className="relative z-10 max-w-6xl mx-auto px-6 lg:px-12 pb-20 mt-8">
         {/* Title section */}

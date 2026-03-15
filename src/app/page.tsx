@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import FileUploader from "@/components/FileUploader";
-import { InteractiveGrid } from "@/components/InteractiveGrid";
 
 export default function Home() {
   const [prompt, setPrompt] = useState("");
@@ -50,9 +49,7 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen bg-background relative overflow-x-hidden overflow-y-auto flex flex-col items-center justify-center py-12 px-6">
-      {/* Interactive Grid Background */}
-      <InteractiveGrid />
+    <main className="min-h-screen relative flex flex-col items-center justify-center py-12 px-6">
 
       {/* Testsprite Badge - Bottom right */}
       <a 

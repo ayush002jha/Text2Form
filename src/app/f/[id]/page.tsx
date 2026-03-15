@@ -61,16 +61,7 @@ export default function FormPage() {
 
   if (loading) {
     return (
-      <main className="min-h-screen bg-background relative flex flex-col items-center pt-24">
-        {/* Grid overlay */}
-        <div
-          className="absolute inset-[0] pointer-events-none"
-          style={{
-            backgroundImage: `linear-gradient(var(--color-border) 2px, transparent 2px), linear-gradient(90deg, var(--color-border) 2px, transparent 2px)`,
-            backgroundSize: "64px 64px",
-            opacity: 0.08
-          }}
-        />
+      <main className="min-h-screen relative flex flex-col items-center pt-24">
         <div className="relative z-10 w-full max-w-3xl px-6">
           <div className="mb-10 text-center flex flex-col items-center">
             <Skeleton className="h-6 w-32 bg-muted/20 border-4 border-border rounded-none mb-6" />
@@ -93,16 +84,7 @@ export default function FormPage() {
 
   if (error || !form) {
     return (
-      <main className="min-h-screen bg-background relative flex items-center justify-center">
-        {/* Grid overlay */}
-        <div
-          className="absolute inset-[0] pointer-events-none"
-          style={{
-            backgroundImage: `linear-gradient(var(--color-border) 2px, transparent 2px), linear-gradient(90deg, var(--color-border) 2px, transparent 2px)`,
-            backgroundSize: "64px 64px",
-            opacity: 0.08
-          }}
-        />
+      <main className="min-h-screen relative flex items-center justify-center">
         <div className="relative z-10 text-center px-6">
           <div className="w-16 h-16 mx-auto mb-6 bg-destructive border-4 border-border shadow-retro flex items-center justify-center">
             <svg className="w-8 h-8 text-background" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -124,16 +106,7 @@ export default function FormPage() {
 
   if (submitted) {
     return (
-      <main className="min-h-screen bg-background relative flex items-center justify-center overflow-hidden">
-        {/* Grid overlay */}
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            backgroundImage: `linear-gradient(var(--color-border) 2px, transparent 2px), linear-gradient(90deg, var(--color-border) 2px, transparent 2px)`,
-            backgroundSize: "64px 64px",
-            opacity: 0.08
-          }}
-        />
+      <main className="min-h-screen relative flex items-center justify-center overflow-hidden">
         <div className="relative z-10 text-center px-6 max-w-lg w-full" data-testid="success-state">
           <div className="w-20 h-20 mx-auto mb-8 bg-accent border-4 border-border shadow-[4px_4px_0_var(--border)] flex items-center justify-center animate-bounce">
             <svg className="w-10 h-10 text-accent-foreground" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -231,16 +204,7 @@ export default function FormPage() {
   }
 
   return (
-    <main className="min-h-screen bg-background relative">
-      {/* Grid overlay */}
-      <div
-        className="absolute inset-[0] pointer-events-none"
-        style={{
-          backgroundImage: `linear-gradient(var(--color-border) 2px, transparent 2px), linear-gradient(90deg, var(--color-border) 2px, transparent 2px)`,
-          backgroundSize: "64px 64px",
-          opacity: 0.08
-        }}
-      />
+    <main className="min-h-screen relative">
 
       {/* Form Content */}
       <div className="relative z-10 max-w-3xl mx-auto px-6 py-12 pb-24">

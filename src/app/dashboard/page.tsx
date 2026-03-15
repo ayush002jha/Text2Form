@@ -2,7 +2,6 @@ import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import Link from 'next/link';
 import { Card, CardContent } from '@/components/ui/card';
-import { InteractiveGrid } from '@/components/InteractiveGrid';
 
 export default async function DashboardIndex() {
   const supabase = await createClient();
@@ -20,9 +19,7 @@ export default async function DashboardIndex() {
     .order('created_at', { ascending: false });
 
   return (
-    <main className="min-h-screen bg-background relative overflow-hidden pb-20">
-      {/* Interactive Grid Background */}
-      <InteractiveGrid />
+    <main className="min-h-screen relative pb-20">
 
       <div className="relative z-10 max-w-6xl mx-auto px-6 lg:px-12 mt-12">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-16 gap-6">
