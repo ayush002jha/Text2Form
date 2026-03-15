@@ -1,0 +1,735 @@
+[
+  {
+    "id": "TC001",
+    "title": "Generate a form from a text prompt and reach the editor",
+    "description": "Verifies a user can generate a form using a text prompt, see loading state, and be redirected to the editor with generated fields visible.",
+    "category": "Form Generation (AI)",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Type \"Create a customer satisfaction survey with 5 questions and one optional email field\" into the prompt input"
+      },
+      {
+        "type": "action",
+        "description": "Click the generate button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"loading spinner\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard/\""
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/edit\""
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Email\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC002",
+    "title": "Attempt generation with no prompt and no files shows generation error",
+    "description": "Verifies clicking Generate without providing prompt or files shows the generation error message element on the landing page.",
+    "category": "Form Generation (AI)",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Click the generate button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"generation error (data-testid=generation-error)\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/\""
+      }
+    ]
+  },
+  {
+    "id": "TC003",
+    "title": "Generating a form shows spinner and disables repeated generation (no duplicate requests)",
+    "description": "Verifies the UI enters a loading state after clicking Generate and does not allow immediate repeated generation clicks while loading.",
+    "category": "Form Generation (AI)",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Type \"Create an event registration form with name, company, job title, and dietary restrictions\" into the prompt input"
+      },
+      {
+        "type": "action",
+        "description": "Click the generate button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"loading spinner\" is visible"
+      },
+      {
+        "type": "action",
+        "description": "Click the generate button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"loading spinner\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard/\""
+      }
+    ]
+  },
+  {
+    "id": "TC004",
+    "title": "Generated editor contains multiple expected fields from a richer prompt",
+    "description": "Verifies that a more detailed prompt results in multiple recognizable generated fields visible in the editor after redirect.",
+    "category": "Form Generation (AI)",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Type \"Create a job application form with full name, email, phone number, portfolio URL, and a short answer question: 'Why do you want this role?'\" into the prompt input"
+      },
+      {
+        "type": "action",
+        "description": "Click the generate button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard/\""
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/edit\""
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Full name\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Portfolio\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC005",
+    "title": "Owner edits a form field property and saves successfully (redirect to analytics)",
+    "description": "Verifies an authenticated form owner can edit a field and save, then is redirected to the analytics page showing updated content.",
+    "category": "Form Editor",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Log in\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard\""
+      },
+      {
+        "type": "action",
+        "description": "Click on the first form in the dashboard list"
+      },
+      {
+        "type": "action",
+        "description": "Click on the \"Edit\" button or \"Edit form\" link"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify page title contains \"Edit\""
+      }
+    ]
+  },
+  {
+    "id": "TC006",
+    "title": "Owner modifies form title and saves; sees updated header on analytics page",
+    "description": "Verifies saving changes updates the form and the user lands on the form analytics page with the updated header visible.",
+    "category": "Form Editor",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Log in\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard\""
+      },
+      {
+        "type": "action",
+        "description": "Click on the first form in the dashboard list"
+      },
+      {
+        "type": "action",
+        "description": "Click on the \"Edit\" button or \"Edit form\" link"
+      },
+      {
+        "type": "action",
+        "description": "Type \" Updated\" into the form title field"
+      }
+    ]
+  },
+  {
+    "id": "TC007",
+    "title": "Owner adds a new field and saves successfully",
+    "description": "Verifies an authenticated owner can add a new field in the editor and save without errors.",
+    "category": "Form Editor",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Log in\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard\""
+      },
+      {
+        "type": "action",
+        "description": "Click on the first form in the dashboard list"
+      },
+      {
+        "type": "action",
+        "description": "Click on the \"Edit\" button or \"Edit form\" link"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Add field\" or \"Add new field\" button"
+      }
+    ]
+  },
+  {
+    "id": "TC008",
+    "title": "Owner removes an existing field and saves successfully",
+    "description": "Verifies an authenticated owner can remove a field and save without errors.",
+    "category": "Form Editor",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Log in\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard\""
+      },
+      {
+        "type": "action",
+        "description": "Click on the first form in the dashboard list"
+      },
+      {
+        "type": "action",
+        "description": "Click on the \"Edit\" button or \"Edit form\" link"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Remove field\" or trash icon for the first field"
+      }
+    ]
+  },
+  {
+    "id": "TC009",
+    "title": "Non-owner attempts to edit and is denied then redirected to dashboard",
+    "description": "Verifies a user who does not own the form sees an access denied toast and is redirected back to the dashboard.",
+    "category": "Form Editor",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Log in\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard\""
+      },
+      {
+        "type": "action",
+        "description": "Navigate to /dashboard"
+      },
+      {
+        "type": "action",
+        "description": "Click on a form that is marked as not owned (e.g., shows a different owner or shared indicator)"
+      },
+      {
+        "type": "action",
+        "description": "Click on the \"Edit\" button or \"Edit form\" link"
+      }
+    ]
+  },
+  {
+    "id": "TC010",
+    "title": "Save is blocked when access denied toast appears",
+    "description": "Verifies that when access is denied, the user cannot remain in the editor and is taken back to dashboard.",
+    "category": "Form Editor",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Log in\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard\""
+      },
+      {
+        "type": "action",
+        "description": "Click on a form that is marked as not owned (e.g., shows a different owner or shared indicator)"
+      },
+      {
+        "type": "action",
+        "description": "Click on the \"Edit\" button or \"Edit form\" link"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Access denied: You do not own this form\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC011",
+    "title": "Editor loads with generated title, description, and fields visible",
+    "description": "Verifies the editor UI renders the generated form content (title, description, and at least one field).",
+    "category": "Form Editor",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Log in\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard\""
+      },
+      {
+        "type": "action",
+        "description": "Click on the first form in the dashboard list"
+      },
+      {
+        "type": "action",
+        "description": "Click on the \"Edit\" button or \"Edit form\" link"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"Form title\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC012",
+    "title": "Invalid form ID shows Form not found error state",
+    "description": "Verifies an invalid public form URL shows the styled error message.",
+    "category": "Public Form Submission",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /f/invalid-id"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"form-error\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Form not found\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC013",
+    "title": "From Form not found page, Back to Home returns to landing page",
+    "description": "Verifies the Back to Home link from the error state navigates to the landing page.",
+    "category": "Public Form Submission",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /f/invalid-id"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Form not found\" is visible"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Back to Home\" link"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/\""
+      }
+    ]
+  },
+  {
+    "id": "TC014",
+    "title": "Owner views analytics detail page: metadata, charts, and submissions table are visible",
+    "description": "Verifies an authenticated owner can see the form metadata, analytics chart area, and submissions table on the dashboard detail page.",
+    "category": "Submissions Analytics (Dashboard Detail)",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /dashboard"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard\""
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Dashboard\" is visible"
+      },
+      {
+        "type": "action",
+        "description": "Click on the first available form card or form row in the dashboard list"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard/\""
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"Submissions\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"Analytics\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"SubmissionsTable\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC015",
+    "title": "Owner sees stat cards for total responses and total fields",
+    "description": "Verifies the dashboard detail page shows stat cards for total responses and total fields for an owner.",
+    "category": "Submissions Analytics (Dashboard Detail)",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /dashboard"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard\""
+      },
+      {
+        "type": "action",
+        "description": "Click on the first available form card or form row in the dashboard list"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard/\""
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"stat-total-responses\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"stat-total-fields\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC016",
+    "title": "Owner clicks View Live from dashboard detail and is taken to the public form page",
+    "description": "Verifies the View Live control is present on the dashboard detail page and navigating from it reaches the public form URL.",
+    "category": "Submissions Analytics (Dashboard Detail)",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /dashboard"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard\""
+      },
+      {
+        "type": "action",
+        "description": "Click on the first available form card or form row in the dashboard list"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard/\""
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"view-form-link\" is visible"
+      },
+      {
+        "type": "action",
+        "description": "Click on element \"view-form-link\""
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/f/\""
+      }
+    ]
+  },
+  {
+    "id": "TC017",
+    "title": "Owner inspects an individual submission row in the submissions table",
+    "description": "Verifies the submissions table renders rows (when available) and a row can be opened to inspect its visible details.",
+    "category": "Submissions Analytics (Dashboard Detail)",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /dashboard"
+      },
+      {
+        "type": "action",
+        "description": "Click on the first available form card or form row in the dashboard list"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard/\""
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"SubmissionsTable\" is visible"
+      },
+      {
+        "type": "action",
+        "description": "Click on the first submission row in the submissions table"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"Submission details\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Responses\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC018",
+    "title": "Chart area renders and shows an empty-state message when there is no chartable data",
+    "description": "Verifies the analytics chart section shows an empty-state message when chartable fields are missing or there are no submissions to chart.",
+    "category": "Submissions Analytics (Dashboard Detail)",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /dashboard"
+      },
+      {
+        "type": "action",
+        "description": "Click on a form card or form row that appears to have no responses (e.g., shows 0 responses if visible on the card/row)"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard/\""
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"Analytics\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"No data available yet\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC019",
+    "title": "Submissions table shows an empty-state message when there are no submissions",
+    "description": "Verifies the submissions table shows an empty state when a form has no submissions.",
+    "category": "Submissions Analytics (Dashboard Detail)",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /dashboard"
+      },
+      {
+        "type": "action",
+        "description": "Click on a form card or form row that appears to have no responses (e.g., shows 0 responses if visible on the card/row)"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard/\""
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"SubmissionsTable\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"No submissions yet\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC020",
+    "title": "Analytics page displays response distribution/chart section when data exists",
+    "description": "Verifies that when a form has responses, the analytics chart section renders a visible distribution/chart area rather than empty state.",
+    "category": "Submissions Analytics (Dashboard Detail)",
+    "priority": "Low",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /dashboard"
+      },
+      {
+        "type": "action",
+        "description": "Click on a form card or form row that appears to have responses (e.g., shows a non-zero responses count if visible on the card/row)"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard/\""
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"AnalyticsChart\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"No data available yet\" is not visible"
+      }
+    ]
+  },
+  {
+    "id": "TC021",
+    "title": "Quiz analytics shows an average score stat when applicable",
+    "description": "Verifies that for quiz-type forms, an average score statistic is visible on the dashboard detail page.",
+    "category": "Submissions Analytics (Dashboard Detail)",
+    "priority": "Low",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /dashboard"
+      },
+      {
+        "type": "action",
+        "description": "Click on a form card or form row that appears to be a quiz (e.g., labeled as Quiz if visible)"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/dashboard/\""
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Average score\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"stat-average-score\" is visible"
+      }
+    ]
+  }
+]
