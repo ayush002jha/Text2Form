@@ -2,6 +2,7 @@ import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import Link from 'next/link';
 import { Card, CardContent } from '@/components/ui/card';
+import DeleteFormButton from '@/components/DeleteFormButton';
 
 export default async function DashboardIndex() {
   const supabase = await createClient();
@@ -119,7 +120,7 @@ export default async function DashboardIndex() {
                     </div>
 
                     {/* Actions Bar */}
-                    <div className="p-3 bg-muted/40 border-t-4 border-border grid grid-cols-3 gap-2">
+                    <div className="p-3 bg-muted/40 border-t-4 border-border grid grid-cols-4 gap-2">
                       <Link 
                         href={`/dashboard/${form.id}`} 
                         className="flex items-center justify-center bg-secondary text-secondary-foreground border-2 border-border shadow-[2px_2px_0_var(--border)] hover:translate-y-[-2px] hover:shadow-[4px_4px_0_var(--border)] active:translate-y-0 active:shadow-none py-2 transition-all group/btn"
@@ -148,6 +149,7 @@ export default async function DashboardIndex() {
                           <path strokeLinecap="square" strokeLinejoin="miter" strokeWidth={3} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                         </svg>
                       </Link>
+                      <DeleteFormButton formId={form.id} formTitle={form.title} />
                     </div>
                   </div>
                 </div>

@@ -388,6 +388,7 @@ This is the core rendering engine that maps JSON form schemas into interactive U
 | **Creation Date Identity** | Calendar icon with formatted date |
 | **View Analytics Action** | Bar chart icon button → `/dashboard/[id]` |
 | **Edit Form Action** | Pencil icon button → `/dashboard/[id]/edit` |
+| **Delete Form Action** | Trash icon button → Calls `/api/forms/delete` with confirmation |
 | **View Public Link Action** | External link icon button → `/f/[id]` (opens in new tab) |
 | **Empty State** | "Database Empty" with document icon, "No forms detected in your neural network" message, "Initialize Sequence" CTA |
 | **Card Hover Effects** | Shadow offset animations, translate transforms on hover |
@@ -756,6 +757,29 @@ files: [File, File, ...]
 ```
 
 **Security:** For quiz forms, the `correctAnswer` property is automatically **stripped** from the schema when the requester is not the form owner. This prevents answer leakage to respondents.
+
+---
+
+### 11.5 `POST /api/forms/delete`
+
+**Purpose:** Delete a form owned by the authenticated user
+
+**Request:**
+```json
+{
+  "formId": "550e8400-e29b-41d4-a716-446655440000"
+}
+```
+
+**Response (200 OK):** `{ "success": true }`
+
+**Error Responses:**
+
+| Status | Body | Condition |
+|--------|------|-----------|
+| 400 | `{ "error": "Missing formId" }` | Missing `formId` |
+| 401 | `{ "error": "Unauthorized" }` | User not logged in |
+| 500 | `{ "error": "Failed to delete the form" }` | DB deletion failure |
 
 ---
 
